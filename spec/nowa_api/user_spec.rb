@@ -18,6 +18,16 @@ describe Nowa::Api::User do
 
       user.knowledge_items.should == []
     end
+
+    it 'returns some KIs' do
+      stub_json_get '/knowledge_items', 'five_knowledge_items_index.json', :auth_token => '1234abcd'
+
+      user = Nowa::Api::User.new('1234abcd')
+
+      5.times do
+        user.knowledge_items.shift.class.should == Nowa::Api::KnowledgeItem
+      end
+    end
   end
 
 end
