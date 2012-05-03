@@ -14,11 +14,29 @@ module Api
       self.new(args)
     end
 
+    attr_reader \
+      :title, 
+      :status, 
+      :id,
+      :tags,
+      :words,
+      :source,
+      :url
+
     def initialize(from={})
+
+      @id     = from['id']
+      @title  = from['title']
+      @status = from['status']
+      @tags   = from['tags']
+      @words  = from['words']
+      @source = from['source']
+      @url    = from['url']
+
     end
 
     def new_record?
-      true
+      @id.nil?
     end
 
   end

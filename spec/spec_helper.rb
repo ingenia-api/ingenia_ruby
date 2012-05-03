@@ -2,8 +2,6 @@
 require 'nowa-api'
 require 'webmock/rspec'
 
-puts 'ALL YOUR SPECS'
-
 def stub_json_get(path, fixture, opts = {})
 
   if fixture
