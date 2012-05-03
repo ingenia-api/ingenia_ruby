@@ -27,7 +27,8 @@ module Api
       returns
 
 
-    #rescue \
+    rescue \
+      JSON::ParserError => e
 #      Timeout::Error, 
 #      Errno::EINVAL, 
 #      Errno::ECONNRESET, 
@@ -35,9 +36,8 @@ module Api
 #      Net::HTTPBadResponse, 
 #      Net::HTTPHeaderSyntaxError, 
 #      Net::ProtocolError,
-#      JSON::ParserError => e
 
-      #nil
+      nil
     end
 
 

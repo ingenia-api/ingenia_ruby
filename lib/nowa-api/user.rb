@@ -17,12 +17,15 @@ module Api
       return nil if kis.nil?
 
       @knowledge_items = []
-      kis.each do |ki_id|
-        @knowledge_items << KnowledgeItem.new( :from_id => ki_id )
+      kis.each do |ki|
+        @knowledge_items << KnowledgeItem.fetch( ki['id'], @api_key )
       end
 
       @knowledge_items
+    end
 
+    def find_ki(id)
+      KnowledgeItem.fetch( id, @api_key )
     end
 
 #    def email
