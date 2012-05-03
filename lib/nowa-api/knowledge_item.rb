@@ -17,6 +17,10 @@ module Api
     def initialize(from={})
     end
 
+    def new_record?
+      true
+    end
+
   end
 
 end

@@ -28,6 +28,11 @@ module Api
       KnowledgeItem.fetch( id, @api_key )
     end
 
+    def create_ki(opts = {})
+      opts[:api_key] = @api_key
+      KnowledgeItem.new( opts )
+    end
+
 #    def email
 #      attributes 'email'
 #    end

@@ -56,4 +56,16 @@ describe Nowa::Api::User do
     end
   end
 
+  describe '#create_ki' do
+    it 'returns a new, unsaved KI' do
+
+      user = Nowa::Api::User.new('1234abcd')
+
+      ki = user.create_ki
+
+      ki.new_record?.should be_true
+
+    end
+  end
+
 end
