@@ -1,6 +1,13 @@
 
-require "nowa-api/version"
-require 'nowa-api/knowledge_item'
+load_list = %w{ 
+  version 
+  knowledge_item 
+  user 
+}
+
+load_list.each do |mod|
+  require "nowa-api/#{mod}"
+end
 
 module Nowa
   module Api
