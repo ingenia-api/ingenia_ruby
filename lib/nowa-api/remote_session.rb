@@ -41,9 +41,11 @@ module Api
     end
 
     def self.put_json(path, args = {})
+      { :status => 'okay' }
     end
 
     def self.post_json(path, args = {})
+      { :status => 'okay' }
     end
 
   end

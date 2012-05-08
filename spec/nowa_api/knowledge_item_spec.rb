@@ -66,7 +66,11 @@ describe Nowa::Api::KnowledgeItem do
           }
         }
 
-        Nowa::Api::RemoteSession.should_receive( :put_json ).with( "/knowledge_items/123.json", post_args )
+        Nowa::Api::RemoteSession.
+          should_receive( :put_json ).
+          with( "/knowledge_items/123.json", post_args ).
+          once.
+          and_return( :status => 'okay' )
 
         ki = Nowa::Api::KnowledgeItem.new('1234abcd', 123).fetch
         ki.title = 'The new title'
@@ -165,7 +169,8 @@ describe Nowa::Api::KnowledgeItem do
           Nowa::Api::RemoteSession.
             should_receive( :post_json ).
             with( '/knowledge_items.json', args ).
-            once
+            once.
+            and_return( :status => 'okay' )
 
           @ki.url = 'http://www.example.com'
           @ki.save

@@ -11,7 +11,8 @@ module Api
       :tags,
       :words,
       :url,
-      :created
+      :created,
+      :save_errors
 
     def initialize(api_key, id = nil)
       @api_key     = api_key
@@ -22,7 +23,7 @@ module Api
     end
 
     def fetch
-      args = RemoteSession.get_json( json_url , :api_key => @api_key)
+      args = RemoteSession.get_json( json_path, :api_key => @api_key)
       return nil if args.nil?
 
       #@id      = args['id']
@@ -44,22 +45,23 @@ module Api
     def save
       return unless dirty?
 
-      if new_record?
-        RemoteSession.post_json(
-          "/knowledge_items.json", 
-          :api_key => @api_key, 
-          :knowledge_item => to_hash 
-        )
+      res = {}
 
+      if new_record?
+        raise "You need a source!" if @create_from.empty?
+
+        res = RemoteSession.post_json json_path, :api_key => @api_key, :knowledge_item => to_hash
       else
-        RemoteSession.put_json(
-          "/knowledge_items/#{@id}.json", 
-          :api_key => @api_key, 
-          :knowledge_item => to_hash 
-        ) 
+        res = RemoteSession.put_json  json_path, :api_key => @api_key, :knowledge_item => to_hash
       end
 
-      @dirty = false
+      if res && res[:status] == 'okay'
+        @dirty = false
+        return true
+      else
+        @save_errors = res[:errors]
+        return false
+      end
     end
 
     def dirty?
@@ -120,8 +122,8 @@ module Api
       @create_from.keys.join.to_s 
     end
       
-    def json_url
-      "/knowledge_items/#{@id}.json"
+    def json_path
+      new_record? ? "/knowledge_items.json" : "/knowledge_items/#{@id}.json"
     end
       
 
