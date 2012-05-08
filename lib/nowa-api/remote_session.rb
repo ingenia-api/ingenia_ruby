@@ -43,6 +43,8 @@ module Api
     def self.put_json(path, args = {})
     end
 
+    def self.post_json(path, args = {})
+    end
 
   end
 

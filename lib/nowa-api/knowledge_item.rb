@@ -10,14 +10,15 @@ module Api
       :id,
       :tags,
       :words,
-      :source,
       :url,
       :created
 
     def initialize(api_key, id = nil)
-      @api_key = api_key
+      @api_key     = api_key
+      @id          = id
       @create_from = {}
-      @id = id
+      @title       = '(untitled)'
+      @tags        = ''
     end
 
     def fetch
@@ -43,11 +44,21 @@ module Api
     def save
       return unless dirty?
 
-      RemoteSession.put_json(
-        "/knowledge_items/#{@id}.json", 
-        :api_key => @api_key, 
-        :knowledge_item => to_hash 
-      ) 
+      if new_record?
+        RemoteSession.post_json(
+          "/knowledge_items.json", 
+          :api_key => @api_key, 
+          :knowledge_item => to_hash 
+        )
+
+      else
+        RemoteSession.put_json(
+          "/knowledge_items/#{@id}.json", 
+          :api_key => @api_key, 
+          :knowledge_item => to_hash 
+        ) 
+      end
+
       @dirty = false
     end
 
@@ -67,36 +78,48 @@ module Api
 
     def url=(url)
       raise "Cannot set URL on an existing Knowledge Item" unless new_record?
-      raise "Already have a source (#{@create_from.keys.join})" unless @create_from.empty?
+      raise "Already have a source (#{source})" unless @create_from.empty?
       @dirty = true
       @create_from = { :url => url }
     end
 
     def text=(text)
       raise "Cannot set text on an existing Knowledge Item" unless new_record?
-      raise "Already have a source (#{@create_from.keys.join})" unless @create_from.empty?
+      raise "Already have a source (#{source})" unless @create_from.empty?
       @dirty = true
       @create_from = { :text => text }
     end
 
     def upload_from=(path)
       raise "Cannot upload content to an existing Knowledge Item" unless new_record?
-      raise "Already have a source (#{@create_from.keys.join})" unless @create_from.empty?
+      raise "Already have a source (#{source})" unless @create_from.empty?
       @dirty = true
-      @create_from = { :upload_from => path }
+      @create_from = { :upload => path }
     end
 
     def to_hash
-      {
-        :title => @title,
-        :tags => @tags
-      }
+      hash = {}
+      hash[:title] = @title
+      hash[:tags] = @tags unless @tags.empty?
+
+      if @create_from.has_key? :text
+        hash[:text] = @create_from[:text] 
+
+      elsif @create_from.has_key? :url
+        hash[:url] = @create_from[:url]
+
+      elsif @create_from.has_key? :upload
+        hash[:upload] = @create_from[:upload]
+      end
+
+      hash
     end
 
-    def errors
-      []
+    def source
+      return @source if @source
+      @create_from.keys.join.to_s 
     end
-
+      
     def json_url
       "/knowledge_items/#{@id}.json"
     end

@@ -21,12 +21,6 @@ describe Nowa::Api::KnowledgeItem do
     end
   end
   
-  describe '.initialize' do
-
-    it 'sets empty source' 
-    it 'takes an api_key which is used in save'
-  end
-
   describe 'existing KI' do
 
     before :each do
@@ -94,35 +88,30 @@ describe Nowa::Api::KnowledgeItem do
 
           lambda { ki.url = 'http://nogood.com' }.should raise_error( RuntimeError, error_message )
         end
-
-#        it 'can only be have one source' do
-#
-#          error_message =  "Already have a source (url)" 
-#
-#          ki = Nowa::Api::KnowledgeItem.new
-#
-#          lambda { 
-#            ki.url = 'http://nogood.com'
-#            ki.text = 'Some text'
-#          }.should raise_error( RuntimeError, error_message )
-#        end
-
       end
     end 
 
-    describe '.errors' do
-      it 'is empty by default for exisiting KIs' do
-        ki = Nowa::Api::KnowledgeItem.new('1234abcd', 123).fetch
-        ki.errors.should be_empty
+    describe '.source' do
+      it 'is set from remote params' do
+        ki = Nowa::Api::KnowledgeItem.new('1234abcd', 123)
+        ki.source.should == ''
+        ki = ki.fetch
+        ki.source.should == 'upload'
       end
     end
-
+    
   end # existing KI
 
   describe 'new KI' do
     
     before :each do
       @ki = Nowa::Api::KnowledgeItem.new('1234abcd')
+    end
+
+    describe '.title' do
+      it 'defaults to untitled' do
+        @ki.title.should == '(untitled)'
+      end
     end
 
     # this is also tested above
@@ -139,17 +128,65 @@ describe Nowa::Api::KnowledgeItem do
       end
     end
 
-    describe '.errors' do
+    describe '.source' do
       it 'is empty by default' do
-        @ki.errors.should be_empty
+        @ki.source.should == ''
+      end
+
+      it 'is set to url for urls' do
+        @ki.url = 'http://www.example.com'
+        @ki.source.should == 'url'
+      end
+
+      it 'is set to text for text' do
+        @ki.text = 'This is a document'
+        @ki.source.should == 'text'
+      end
+
+      it 'is set to upload for files' do
+        @ki.upload_from = '/some/file/path'
+        @ki.source.should == 'upload'
       end
     end
 
+
     describe '.save' do
+
+      describe 'with url' do
+
+        it 'calls remote json with correct params' do
+          args = {
+            :api_key => '1234abcd',
+            :knowledge_item => {
+              :title => '(untitled)',
+              :url => 'http://www.example.com'
+          } }
+
+          Nowa::Api::RemoteSession.
+            should_receive( :post_json ).
+            with( '/knowledge_items.json', args ).
+            once
+
+          @ki.url = 'http://www.example.com'
+          @ki.save
+        end
+
+      end
       
     end
   end
 
+#        it 'can only be have one source' do
+#
+#          error_message =  "Already have a source (url)" 
+#
+#          ki = Nowa::Api::KnowledgeItem.new
+#
+#          lambda { 
+#            ki.url = 'http://nogood.com'
+#            ki.text = 'Some text'
+#          }.should raise_error( RuntimeError, error_message )
+#        end
 
 
   
