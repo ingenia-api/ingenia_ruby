@@ -88,23 +88,49 @@ describe Nowa::Api::KnowledgeItem do
           lambda { ki.url = 'http://nogood.com' }.should raise_error( RuntimeError, error_message )
         end
 
-        it 'can only be have one source' do
-
-          error_message =  "Already have a source (url)" 
-
-          ki = Nowa::Api::KnowledgeItem.new
-
-          lambda { 
-            ki.url = 'http://nogood.com'
-            ki.text = 'Some text'
-          }.should raise_error( RuntimeError, error_message )
-        end
+#        it 'can only be have one source' do
+#
+#          error_message =  "Already have a source (url)" 
+#
+#          ki = Nowa::Api::KnowledgeItem.new
+#
+#          lambda { 
+#            ki.url = 'http://nogood.com'
+#            ki.text = 'Some text'
+#          }.should raise_error( RuntimeError, error_message )
+#        end
 
       end
 
+    end 
+
+  end # existing KI
+
+  describe 'new KI' do
+    
+    before :each do
+      @ki = Nowa::Api::KnowledgeItem.new('1234abcd')
     end
 
+    describe 'new_record?' do
+      it 'is true' do
+        @ki.new_record?.should be_true
+      end
+    end
+
+    describe 'dirty?' do
+      it 'is false by default' do
+        @ki.dirty?.should_not be_true
+      end
+    end
+
+    describe '.initialize'
+
+    describe '.save' do
+      
+    end
   end
+
 
 
   

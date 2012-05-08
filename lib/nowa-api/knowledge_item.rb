@@ -9,9 +9,9 @@ module Api
       args = RemoteSession.get_json( "/knowledge_items/#{id}.json", :api_key => key)
       return nil if args.nil?
 
-      args['api_key'] = key
-
-      self.new(args)
+      new(key).tap do |ki|
+        ki.set args
+      end
     end
 
     attr_reader \
@@ -24,10 +24,14 @@ module Api
       :url,
       :created
 
-    def initialize(from={})
-
+    def initialize(api_key)
+      @api_key = api_key
       @create_from = {}
+      @created = Time.now
+    end
 
+    # nodoc
+    def set(from={})
       @id      = from['id']
       @title   = from['title']
       @status  = from['status']
@@ -36,7 +40,6 @@ module Api
       @source  = from['source']
       @url     = from['url']
       @created = Time.at(from['created'] || 0)
-      @api_key = from['api_key']
     end
 
     def new_record?
@@ -71,18 +74,21 @@ module Api
     def url=(url)
       raise "Cannot set URL on an existing Knowledge Item" unless new_record?
       raise "Already have a source (#{@create_from.keys.join})" unless @create_from.empty?
+      @dirty = true
       @create_from = { :url => url }
     end
 
     def text=(text)
       raise "Cannot set text on an existing Knowledge Item" unless new_record?
       raise "Already have a source (#{@create_from.keys.join})" unless @create_from.empty?
+      @dirty = true
       @create_from = { :text => text }
     end
 
     def upload_from=(path)
       raise "Cannot upload content to an existing Knowledge Item" unless new_record?
       raise "Already have a source (#{@create_from.keys.join})" unless @create_from.empty?
+      @dirty = true
       @create_from = { :upload_from => path }
     end
 
