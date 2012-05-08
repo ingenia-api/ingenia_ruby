@@ -112,19 +112,29 @@ describe Nowa::Api::KnowledgeItem do
       @ki = Nowa::Api::KnowledgeItem.new('1234abcd')
     end
 
-    describe 'new_record?' do
+    describe '.new_record?' do
       it 'is true' do
         @ki.new_record?.should be_true
       end
     end
 
-    describe 'dirty?' do
+    describe '.dirty?' do
       it 'is false by default' do
         @ki.dirty?.should_not be_true
       end
     end
 
-    describe '.initialize'
+    describe '.initialize' do
+
+      it 'sets default time' do
+        time_now = Time.now
+        Time.stub!(:now).and_return(time_now)
+
+        ki = Nowa::Api::KnowledgeItem.new('')
+        ki.created.should == time_now
+      end
+    end
+
 
     describe '.save' do
       
