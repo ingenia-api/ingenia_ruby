@@ -55,11 +55,11 @@ module Api
         res = RemoteSession.put_json  json_path, @api_key, :knowledge_item => to_hash
       end
 
-      if res && res[:status] == 'okay'
+      if res && res['status'] == 'okay'
         @dirty = false
         return true
       else
-        @save_errors = res[:errors]
+        @save_errors = res['errors']
         return false
       end
     end

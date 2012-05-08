@@ -25,6 +25,7 @@ describe Nowa::Api::KnowledgeItem do
 
     before :each do
       stub_json_get "/knowledge_items/123.json", 'knowledge_item.json', :auth_token => '1234abcd'
+      stub_json_put "/knowledge_items/123.json", 'success.json', :auth_token => '1234abcd'
     end
 
     describe '.dirty?' do

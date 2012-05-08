@@ -13,9 +13,7 @@ module Api
     end
     
     def self.get_json(path, key = nil, opts = {})
-
       json = RestClient.get auth_url(key, path)
-
       JSON.parse json
 
     rescue JSON::ParserError, RestClient::Exception
@@ -23,11 +21,19 @@ module Api
     end
 
     def self.put_json(path, key, args = {})
-      { :status => 'okay' }
+      json = RestClient.put auth_url(key, path), args
+      JSON.parse json
+
+    rescue JSON::ParserError, RestClient::Exception
+      { :status => 'error', :message => $!.to_s }
     end
 
     def self.post_json(path, key, args = {})
-      { :status => 'okay' }
+      json = RestClient.post auth_url(key, path), args
+      JSON.parse json
+
+    rescue JSON::ParserError, RestClient::Exception
+      { :status => 'error', :message => $!.to_s }
     end
 
   end
