@@ -1,0 +1,22 @@
+
+nowa api spec
+
+KnowledgeItem
+  ( rw:title, r:created, r:url )
+  - save
+  - words
+  - tags
+  - status (message)
+  - source (downloaded)
+  - id
+
+User
+  ( email )
+  * login
+  * logout
+  * knowledge_items
+  * find_by_id (future)
+  * create_knowledge_item
+  * tags
+  
+
