@@ -20,7 +20,7 @@ def stub_json_get(path, fixture, opts = {})
 
   opts[:endpoint] = Nowa::Api.endpoint unless opts.has_key? :endpoint
 
-  url = URI.parse(opts[:endpoint] + path)
+  url = URI.parse('http://' + opts[:endpoint] + path)
 
   if opts.has_key? :auth_token
     url.user = opts[:auth_token] 

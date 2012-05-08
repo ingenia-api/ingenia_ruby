@@ -23,8 +23,8 @@ module Api
     end
 
     def fetch
-      args = RemoteSession.get_json( json_path, :api_key => @api_key)
-      return nil if args.nil?
+      args = RemoteSession.get_json( json_path, @api_key)
+      return nil if args.nil? || args[:status] == 'error'
 
       #@id      = args['id']
       @title   = args['title']
@@ -50,9 +50,9 @@ module Api
       if new_record?
         raise "You need a source!" if @create_from.empty?
 
-        res = RemoteSession.post_json json_path, :api_key => @api_key, :knowledge_item => to_hash
+        res = RemoteSession.post_json json_path, @api_key, :knowledge_item => to_hash
       else
-        res = RemoteSession.put_json  json_path, :api_key => @api_key, :knowledge_item => to_hash
+        res = RemoteSession.put_json  json_path, @api_key, :knowledge_item => to_hash
       end
 
       if res && res[:status] == 'okay'
@@ -125,10 +125,6 @@ module Api
     def json_path
       new_record? ? "/knowledge_items.json" : "/knowledge_items/#{@id}.json"
     end
-      
-
-
-
   end
 
 end

@@ -1,5 +1,5 @@
 
-require 'open-uri'
+require 'restclient'
 require 'json'
 
 load_list = %w{ 
@@ -17,7 +17,7 @@ end
 module Nowa
   module Api
 
-    DEFAULT_ENDPOINT = 'http://localhost.com:3000'
+    DEFAULT_ENDPOINT = 'localhost.com:3000'
 
     extend self
 
@@ -30,8 +30,8 @@ module Nowa
     end
     
     def endpoint=(ep)
+      ep.sub!( /^https?:\/\//, '' ) unless ep.nil?
       @endpoint = ep
     end
-                  
   end
 end

@@ -12,7 +12,7 @@ module Api
 
     def knowledge_items
       
-      kis = RemoteSession.get_json('/knowledge_items', :api_key => @api_key)
+      kis = RemoteSession.get_json('/knowledge_items.json',  @api_key)
 
       return nil if kis.nil?
 
@@ -34,7 +34,7 @@ module Api
     end
 
     def tags
-      @tags ||= RemoteSession.get_json('/tags.json', :api_key => @api_key)['tags']
+      @tags ||= RemoteSession.get_json('/tags.json', @api_key)['tags']
     end
 
 #    def email

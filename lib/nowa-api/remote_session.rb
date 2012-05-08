@@ -3,48 +3,30 @@ module Nowa
 module Api
   
   # i hate ruby http. i mean, wtf guys? sort it out already
-  class RemoteSession
+  module RemoteSession
 
-    def self.get_json(path, opts = {})
+    extend self
 
-      url = URI.parse(Nowa::Api.endpoint + path)
+    def auth_url(auth_token, path)
+      return "http://#{Nowa::Api.endpoint}#{path}" if auth_token.nil?
+      "http://#{auth_token}:@#{Nowa::Api.endpoint}#{path}"
+    end
+    
+    def self.get_json(path, key = nil, opts = {})
 
-      req = Net::HTTP::Get.new(url.path)
+      json = RestClient.get auth_url(key, path)
 
-      req.basic_auth opts[:api_key], '' unless opts[:api_key].nil?
+      JSON.parse json
 
-      http = Net::HTTP.new(url.host, url.port).start
-
-      if http.started?
-
-        response = http.request(req)
-
-        returns = JSON.parse(response.body) if response.is_a? Net::HTTPOK
-
-        http.finish
-      end
-
-      returns
-
-
-    rescue \
-      JSON::ParserError => e
-#      Timeout::Error, 
-#      Errno::EINVAL, 
-#      Errno::ECONNRESET, 
-#      EOFError,
-#      Net::HTTPBadResponse, 
-#      Net::HTTPHeaderSyntaxError, 
-#      Net::ProtocolError,
-
-      nil
+    rescue JSON::ParserError, RestClient::Exception
+      { :status => 'error', :message => $!.to_s }
     end
 
-    def self.put_json(path, args = {})
+    def self.put_json(path, key, args = {})
       { :status => 'okay' }
     end
 
-    def self.post_json(path, args = {})
+    def self.post_json(path, key, args = {})
       { :status => 'okay' }
     end
 

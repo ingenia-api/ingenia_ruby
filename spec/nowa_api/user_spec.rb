@@ -12,7 +12,7 @@ describe Nowa::Api::User do
   describe '#knowledge_items' do
     it 'returns empty array if nothing found' do
 
-      stub_json_get '/knowledge_items', 'empty_array.json', :auth_token => '1234abcd'
+      stub_json_get '/knowledge_items.json', 'empty_array.json', :auth_token => '1234abcd'
 
       user = Nowa::Api::User.new('1234abcd')
 
@@ -20,7 +20,7 @@ describe Nowa::Api::User do
     end
 
     it 'returns some KIs' do
-      stub_json_get '/knowledge_items', 'five_knowledge_items_index.json', :auth_token => '1234abcd'
+      stub_json_get '/knowledge_items.json', 'five_knowledge_items_index.json', :auth_token => '1234abcd'
 
       5.times do |n|
         stub_json_get "/knowledge_items/#{855 + n}.json", 'knowledge_item.json', :auth_token => '1234abcd'

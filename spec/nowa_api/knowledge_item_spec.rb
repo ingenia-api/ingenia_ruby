@@ -59,7 +59,6 @@ describe Nowa::Api::KnowledgeItem do
       it 'posts new stuff to the server' do
 
         post_args = {
-          :api_key => '1234abcd',
           :knowledge_item => {
             :title => 'The new title',
             :tags => 'Some different tags'
@@ -68,7 +67,7 @@ describe Nowa::Api::KnowledgeItem do
 
         Nowa::Api::RemoteSession.
           should_receive( :put_json ).
-          with( "/knowledge_items/123.json", post_args ).
+          with( "/knowledge_items/123.json", '1234abcd', post_args ).
           once.
           and_return( :status => 'okay' )
 
@@ -160,7 +159,6 @@ describe Nowa::Api::KnowledgeItem do
 
         it 'calls remote json with correct params' do
           args = {
-            :api_key => '1234abcd',
             :knowledge_item => {
               :title => '(untitled)',
               :url => 'http://www.example.com'
@@ -168,7 +166,7 @@ describe Nowa::Api::KnowledgeItem do
 
           Nowa::Api::RemoteSession.
             should_receive( :post_json ).
-            with( '/knowledge_items.json', args ).
+            with( '/knowledge_items.json', '1234abcd', args ).
             once.
             and_return( :status => 'okay' )
 

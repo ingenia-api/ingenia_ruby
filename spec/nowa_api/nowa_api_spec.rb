@@ -5,7 +5,7 @@ describe Nowa::Api do
 
   describe '.endpoint' do
     it 'returns default endpoint' do
-      Nowa::Api.endpoint.should == 'http://localhost.com:3000'
+      Nowa::Api.endpoint.should == 'localhost.com:3000'
     end
 
     it 'can be set' do
