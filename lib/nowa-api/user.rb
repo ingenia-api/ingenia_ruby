@@ -18,14 +18,14 @@ module Api
 
       @knowledge_items = []
       kis.each do |ki|
-        @knowledge_items << KnowledgeItem.fetch( ki['id'], @api_key )
+        @knowledge_items << KnowledgeItem.new(@api_key, ki['id'] ).fetch
       end
 
       @knowledge_items
     end
 
     def find_ki(id)
-      KnowledgeItem.fetch( id, @api_key )
+      KnowledgeItem.new( @api_key, id ).fetch
     end
 
     def create_ki(opts = {})

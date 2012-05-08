@@ -8,7 +8,7 @@ describe Nowa::Api::KnowledgeItem do
       
         stub_json_get "/knowledge_items/123.json", 'knowledge_item.json', :auth_token => '1234abcd'
 
-        ki = Nowa::Api::KnowledgeItem.fetch(123, '1234abcd')
+        ki = Nowa::Api::KnowledgeItem.new('1234abcd', 123).fetch
 
         ki.new_record?.should_not be_true
 
@@ -21,6 +21,12 @@ describe Nowa::Api::KnowledgeItem do
     end
   end
   
+  describe '.initialize' do
+
+    it 'sets empty source' 
+    it 'takes an api_key which is used in save'
+  end
+
   describe 'existing KI' do
 
     before :each do
@@ -28,22 +34,23 @@ describe Nowa::Api::KnowledgeItem do
     end
 
     describe '.dirty?' do
+      before :each do
+        @ki = Nowa::Api::KnowledgeItem.new('1234abcd', 123).fetch
+      end
+
       it 'is clear by default' do
-        ki = Nowa::Api::KnowledgeItem.fetch(123, '1234abcd')
-        ki.dirty?.should be_false
+        @ki.dirty?.should be_false
       end
 
       it 'gets set when value changes' do
-        ki = Nowa::Api::KnowledgeItem.fetch(123, '1234abcd')
-        ki.title = 'A new title'
-        ki.dirty?.should be_true
+        @ki.title = 'A new title'
+        @ki.dirty?.should be_true
       end
 
       it 'gets cleared when save occours' do
-        ki = Nowa::Api::KnowledgeItem.fetch(123, '1234abcd')
-        ki.title = 'A new title'
-        ki.save
-        ki.dirty?.should be_false
+        @ki.title = 'A new title'
+        @ki.save
+        @ki.dirty?.should be_false
       end
     end
 
@@ -51,7 +58,7 @@ describe Nowa::Api::KnowledgeItem do
 
       it 'doesn\'t save things that haven\'t changed' do
         Nowa::Api::RemoteSession.should_not_receive( :put_json )
-        ki = Nowa::Api::KnowledgeItem.fetch(123, '1234abcd')
+        ki = Nowa::Api::KnowledgeItem.new('1234abcd', 123).fetch
         ki.save
       end
 
@@ -67,7 +74,7 @@ describe Nowa::Api::KnowledgeItem do
 
         Nowa::Api::RemoteSession.should_receive( :put_json ).with( "/knowledge_items/123.json", post_args )
 
-        ki = Nowa::Api::KnowledgeItem.fetch(123, '1234abcd')
+        ki = Nowa::Api::KnowledgeItem.new('1234abcd', 123).fetch
         ki.title = 'The new title'
         ki.tags = 'Some different tags'
         ki.save
@@ -83,7 +90,7 @@ describe Nowa::Api::KnowledgeItem do
 
           error_message =  "Cannot set URL on an existing Knowledge Item" 
 
-          ki = Nowa::Api::KnowledgeItem.fetch(123, '1234abcd')
+          ki = Nowa::Api::KnowledgeItem.new('1234abcd', 123).fetch
 
           lambda { ki.url = 'http://nogood.com' }.should raise_error( RuntimeError, error_message )
         end
@@ -101,8 +108,14 @@ describe Nowa::Api::KnowledgeItem do
 #        end
 
       end
-
     end 
+
+    describe '.errors' do
+      it 'is empty by default for exisiting KIs' do
+        ki = Nowa::Api::KnowledgeItem.new('1234abcd', 123).fetch
+        ki.errors.should be_empty
+      end
+    end
 
   end # existing KI
 
@@ -112,29 +125,25 @@ describe Nowa::Api::KnowledgeItem do
       @ki = Nowa::Api::KnowledgeItem.new('1234abcd')
     end
 
+    # this is also tested above
     describe '.new_record?' do
       it 'is true' do
         @ki.new_record?.should be_true
       end
     end
 
+    # this is also tested above
     describe '.dirty?' do
       it 'is false by default' do
         @ki.dirty?.should_not be_true
       end
     end
 
-    describe '.initialize' do
-
-      it 'sets default time' do
-        time_now = Time.now
-        Time.stub!(:now).and_return(time_now)
-
-        ki = Nowa::Api::KnowledgeItem.new('')
-        ki.created.should == time_now
+    describe '.errors' do
+      it 'is empty by default' do
+        @ki.errors.should be_empty
       end
     end
-
 
     describe '.save' do
       

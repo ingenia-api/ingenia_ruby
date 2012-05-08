@@ -4,16 +4,6 @@ module Api
   
   class KnowledgeItem
 
-    def self.fetch(id, key)
-
-      args = RemoteSession.get_json( "/knowledge_items/#{id}.json", :api_key => key)
-      return nil if args.nil?
-
-      new(key).tap do |ki|
-        ki.set args
-      end
-    end
-
     attr_reader \
       :title, 
       :status, 
@@ -24,22 +14,26 @@ module Api
       :url,
       :created
 
-    def initialize(api_key)
+    def initialize(api_key, id = nil)
       @api_key = api_key
       @create_from = {}
-      @created = Time.now
+      @id = id
     end
 
-    # nodoc
-    def set(from={})
-      @id      = from['id']
-      @title   = from['title']
-      @status  = from['status']
-      @tags    = from['tags']
-      @words   = from['words']
-      @source  = from['source']
-      @url     = from['url']
-      @created = Time.at(from['created'] || 0)
+    def fetch
+      args = RemoteSession.get_json( json_url , :api_key => @api_key)
+      return nil if args.nil?
+
+      #@id      = args['id']
+      @title   = args['title']
+      @status  = args['status']
+      @tags    = args['tags']
+      @words   = args['words']
+      @source  = args['source']
+      @url     = args['url']
+      @created = Time.at(args['created'] || 0)
+
+      self
     end
 
     def new_record?
@@ -97,6 +91,14 @@ module Api
         :title => @title,
         :tags => @tags
       }
+    end
+
+    def errors
+      []
+    end
+
+    def json_url
+      "/knowledge_items/#{@id}.json"
     end
       
 
