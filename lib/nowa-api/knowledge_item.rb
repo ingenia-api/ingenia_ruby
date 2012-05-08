@@ -26,6 +26,8 @@ module Api
 
     def initialize(from={})
 
+      @create_from = {}
+
       @id      = from['id']
       @title   = from['title']
       @status  = from['status']
@@ -68,13 +70,21 @@ module Api
 
     def url=(url)
       raise "Cannot set URL on an existing Knowledge Item" unless new_record?
-      @url = url
+      raise "Already have a source (#{@create_from.keys.join})" unless @create_from.empty?
+      @create_from = { :url => url }
     end
-#
-#    def text=(text)
-#      raise "Cannot set URL on an existing Knowledge Item" unless new_record?
-#      @text = text
-#    end
+
+    def text=(text)
+      raise "Cannot set text on an existing Knowledge Item" unless new_record?
+      raise "Already have a source (#{@create_from.keys.join})" unless @create_from.empty?
+      @create_from = { :text => text }
+    end
+
+    def upload_from=(path)
+      raise "Cannot upload content to an existing Knowledge Item" unless new_record?
+      raise "Already have a source (#{@create_from.keys.join})" unless @create_from.empty?
+      @create_from = { :upload_from => path }
+    end
 
     def to_hash
       {
