@@ -66,6 +66,16 @@ module Api
       @tags = text
     end
 
+    def url=(url)
+      raise "Cannot set URL on an existing Knowledge Item" unless new_record?
+      @url = url
+    end
+#
+#    def text=(text)
+#      raise "Cannot set URL on an existing Knowledge Item" unless new_record?
+#      @text = text
+#    end
+
     def to_hash
       {
         :title => @title,

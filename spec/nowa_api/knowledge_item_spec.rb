@@ -74,6 +74,24 @@ describe Nowa::Api::KnowledgeItem do
       end
 
     end
+
+    describe 'unsettable field' do
+
+      describe 'url=' do
+
+        it 'complains you are trying to set it' do
+
+          error_message =  "Cannot set URL on an existing Knowledge Item" 
+
+          Nowa::Api::RemoteSession.should_not_receive( :put_json )
+          ki = Nowa::Api::KnowledgeItem.fetch(123, '1234abcd')
+
+          lambda { ki.url = 'http://nogood.com' }.should raise_error( RuntimeError, error_message )
+        end
+      end
+
+    end
+
   end
 
 
