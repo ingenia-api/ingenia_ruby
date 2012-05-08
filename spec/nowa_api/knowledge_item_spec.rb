@@ -21,6 +21,42 @@ describe Nowa::Api::KnowledgeItem do
     end
   end
 
+  describe '.dirty?' do
+
+    it 'is clear by default' do
+
+      stub_json_get "/knowledge_items/123.json", 'knowledge_item.json', :auth_token => '1234abcd'
+
+      ki = Nowa::Api::KnowledgeItem.fetch(123, '1234abcd')
+
+      ki.dirty?.should be_false
+    end
+
+    it 'gets set when value changes' do
+      stub_json_get "/knowledge_items/123.json", 'knowledge_item.json', :auth_token => '1234abcd'
+
+      ki = Nowa::Api::KnowledgeItem.fetch(123, '1234abcd')
+
+      ki.title = 'A new title'
+
+      ki.dirty?.should be_true
+    end
+
+    it 'gets cleared when save occours' do
+      stub_json_get "/knowledge_items/123.json", 'knowledge_item.json', :auth_token => '1234abcd'
+
+      ki = Nowa::Api::KnowledgeItem.fetch(123, '1234abcd')
+
+      ki.title = 'A new title'
+
+      ki.save
+
+      ki.dirty?.should be_false
+    end
+    
+  end
+
+
   describe '.save' do
 
     it 'doesn\'t save things that haven\'t changed'

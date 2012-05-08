@@ -34,12 +34,33 @@ module Api
       @source  = from['source']
       @url     = from['url']
       @created = Time.at(from['created'] || 0)
-
     end
 
     def new_record?
       @id.nil?
     end
+
+    def save
+      #RemoteSession.put_json( "/knowledge_items/#{@id}.json", :api_key => key, to_hash ) if dirty?
+      @dirty = false
+    end
+
+    def dirty?
+      @dirty
+    end
+
+    def title=(text)
+      @dirty = true
+      @title = text
+    end
+
+    def tags=(text)
+      @dirty = true
+      @tags = text
+    end
+      
+
+
 
   end
 
