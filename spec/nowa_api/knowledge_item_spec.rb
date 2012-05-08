@@ -17,8 +17,13 @@ describe Nowa::Api::KnowledgeItem do
         ki.tags.should    == "some tags about this item"
         ki.words.should   == "words in this knowledge item they are unique"
         ki.source.should  == "upload"
+        ki.created.should == Time.at(1336468441)
     end
-    
+  end
+
+  describe '.save' do
+
+    it 'doesn\'t save things that haven\'t changed'
   end
   
 end

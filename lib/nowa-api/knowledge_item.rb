@@ -21,17 +21,19 @@ module Api
       :tags,
       :words,
       :source,
-      :url
+      :url,
+      :created
 
     def initialize(from={})
 
-      @id     = from['id']
-      @title  = from['title']
-      @status = from['status']
-      @tags   = from['tags']
-      @words  = from['words']
-      @source = from['source']
-      @url    = from['url']
+      @id      = from['id']
+      @title   = from['title']
+      @status  = from['status']
+      @tags    = from['tags']
+      @words   = from['words']
+      @source  = from['source']
+      @url     = from['url']
+      @created = Time.at(from['created'] || 0)
 
     end
 
