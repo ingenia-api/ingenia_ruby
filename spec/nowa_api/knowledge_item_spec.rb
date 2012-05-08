@@ -20,47 +20,63 @@ describe Nowa::Api::KnowledgeItem do
         ki.created.should == Time.at(1336468441)
     end
   end
+  
+  describe 'existing KI' do
 
-  describe '.dirty?' do
-
-    it 'is clear by default' do
-
+    before :each do
       stub_json_get "/knowledge_items/123.json", 'knowledge_item.json', :auth_token => '1234abcd'
-
-      ki = Nowa::Api::KnowledgeItem.fetch(123, '1234abcd')
-
-      ki.dirty?.should be_false
     end
 
-    it 'gets set when value changes' do
-      stub_json_get "/knowledge_items/123.json", 'knowledge_item.json', :auth_token => '1234abcd'
+    describe '.dirty?' do
+      it 'is clear by default' do
+        ki = Nowa::Api::KnowledgeItem.fetch(123, '1234abcd')
+        ki.dirty?.should be_false
+      end
 
-      ki = Nowa::Api::KnowledgeItem.fetch(123, '1234abcd')
+      it 'gets set when value changes' do
+        ki = Nowa::Api::KnowledgeItem.fetch(123, '1234abcd')
+        ki.title = 'A new title'
+        ki.dirty?.should be_true
+      end
 
-      ki.title = 'A new title'
-
-      ki.dirty?.should be_true
+      it 'gets cleared when save occours' do
+        ki = Nowa::Api::KnowledgeItem.fetch(123, '1234abcd')
+        ki.title = 'A new title'
+        ki.save
+        ki.dirty?.should be_false
+      end
     end
 
-    it 'gets cleared when save occours' do
-      stub_json_get "/knowledge_items/123.json", 'knowledge_item.json', :auth_token => '1234abcd'
+    describe '.save' do
 
-      ki = Nowa::Api::KnowledgeItem.fetch(123, '1234abcd')
+      it 'doesn\'t save things that haven\'t changed' do
+        Nowa::Api::RemoteSession.should_not_receive( :put_json )
+        ki = Nowa::Api::KnowledgeItem.fetch(123, '1234abcd')
+        ki.save
+      end
 
-      ki.title = 'A new title'
+      it 'posts new stuff to the server' do
 
-      ki.save
+        post_args = {
+          :api_key => '1234abcd',
+          :knowledge_item => {
+            :title => 'The new title',
+            :tags => 'Some different tags'
+          }
+        }
 
-      ki.dirty?.should be_false
+        Nowa::Api::RemoteSession.should_receive( :put_json ).with( "/knowledge_items/123.json", post_args )
+
+        ki = Nowa::Api::KnowledgeItem.fetch(123, '1234abcd')
+        ki.title = 'The new title'
+        ki.tags = 'Some different tags'
+        ki.save
+      end
+
     end
-    
   end
 
 
-  describe '.save' do
-
-    it 'doesn\'t save things that haven\'t changed'
-  end
   
 end
 

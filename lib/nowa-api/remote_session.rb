@@ -40,6 +40,9 @@ module Api
       nil
     end
 
+    def self.put_json(path, args = {})
+    end
+
 
   end
 

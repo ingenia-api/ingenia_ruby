@@ -9,7 +9,7 @@ module Api
       args = RemoteSession.get_json( "/knowledge_items/#{id}.json", :api_key => key)
       return nil if args.nil?
 
-      args[:api_key] = key
+      args['api_key'] = key
 
       self.new(args)
     end
@@ -34,6 +34,7 @@ module Api
       @source  = from['source']
       @url     = from['url']
       @created = Time.at(from['created'] || 0)
+      @api_key = from['api_key']
     end
 
     def new_record?
@@ -41,7 +42,13 @@ module Api
     end
 
     def save
-      #RemoteSession.put_json( "/knowledge_items/#{@id}.json", :api_key => key, to_hash ) if dirty?
+      return unless dirty?
+
+      RemoteSession.put_json(
+        "/knowledge_items/#{@id}.json", 
+        :api_key => @api_key, 
+        :knowledge_item => to_hash 
+      ) 
       @dirty = false
     end
 
@@ -57,6 +64,13 @@ module Api
     def tags=(text)
       @dirty = true
       @tags = text
+    end
+
+    def to_hash
+      {
+        :title => @title,
+        :tags => @tags
+      }
     end
       
 
