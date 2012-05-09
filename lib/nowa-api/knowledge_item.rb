@@ -20,20 +20,25 @@ module Api
       @create_from = {}
       @title       = '(untitled)'
       @tags        = ''
+
+      puts "KnowledgeItem.new(#{api_key}, #{id})"
     end
 
     def fetch
+      puts 'fetching'
       args = RemoteSession.get_json( json_path, @api_key)
       return nil if args.nil? || args[:status] == 'error'
 
-      #@id      = args['id']
-      @title   = args['title']
-      @status  = args['status']
-      @tags    = args['tags']
-      @words   = args['words']
-      @source  = args['source']
-      @url     = args['url']
-      @created = Time.at(args['created'] || 0)
+      values = args['knowledge_item']
+
+      #@id      = values['id']
+      @title   = values['title']
+      @status  = values['status']
+      @tags    = values['tags']
+      @words   = values['words']
+      @source  = values['source']
+      @url     = values['url']
+      @created = Time.at(values['created'] || 0)
 
       self
     end

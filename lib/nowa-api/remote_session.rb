@@ -13,15 +13,24 @@ module Api
     end
     
     def self.get_json(path, key = nil, opts = {})
-      json = RestClient.get auth_url(key, path)
+
+      url = auth_url(key, path)
+
+      puts "get_json(#{url})"
+
+      json = RestClient.get url, :params => { :api_version => Nowa::Api::API_VERSION }
+
+      puts "response=#{json}"
+
       JSON.parse json
 
     rescue JSON::ParserError, RestClient::Exception
+      puts "failed (#{$!})"
       { :status => 'error', :message => $!.to_s }
     end
 
     def self.put_json(path, key, args = {})
-      json = RestClient.put auth_url(key, path), args
+      json = RestClient.put auth_url(key, path), args, :api_version => Nowa::Api::API_VERSION
       JSON.parse json
 
     rescue JSON::ParserError, RestClient::Exception
@@ -29,7 +38,7 @@ module Api
     end
 
     def self.post_json(path, key, args = {})
-      json = RestClient.post auth_url(key, path), args
+      json = RestClient.post auth_url(key, path), args, :api_version => Nowa::Api::API_VERSION
       JSON.parse json
 
     rescue JSON::ParserError, RestClient::Exception

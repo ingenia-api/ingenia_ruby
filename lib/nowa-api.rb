@@ -17,7 +17,8 @@ end
 module Nowa
   module Api
 
-    DEFAULT_ENDPOINT = 'localhost.com:3000'
+    DEFAULT_ENDPOINT = 'localhost:3000'
+    API_VERSION = '1.0'
 
     extend self
 
