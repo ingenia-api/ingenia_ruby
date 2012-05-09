@@ -12,9 +12,11 @@ module Api
 
     def knowledge_items
       
-      kis = RemoteSession.get_json('/knowledge_items.json',  @api_key)
+      data = RemoteSession.get_json('/knowledge_items.json',  @api_key)
 
-      return nil if kis.nil?
+      return nil if data.nil?
+
+      kis = data['knowledge_items']
 
       @knowledge_items = []
       kis.each do |ki|
