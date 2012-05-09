@@ -9,6 +9,7 @@ KnowledgeItem
   - status (message)
   - source (downloaded)
   - id
+  - reload
 
 User
   ( email )
@@ -17,6 +18,11 @@ User
   * knowledge_items
   * find_by_id (future)
   * create_knowledge_item
-  * tags
+  X tags
   
+
+
+Nowafy
+* user /knowledge_items.json
+X user /tags.json
 

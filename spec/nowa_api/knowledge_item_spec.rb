@@ -67,7 +67,7 @@ describe Nowa::Api::KnowledgeItem do
         }
 
         Nowa::Api::RemoteSession.
-          should_receive( :put_json ).
+          should_receive( :post_json ).
           with( "/knowledge_items/123.json", '1234abcd', post_args ).
           once.
           and_return( :status => 'okay' )
@@ -166,7 +166,7 @@ describe Nowa::Api::KnowledgeItem do
           } }
 
           Nowa::Api::RemoteSession.
-            should_receive( :post_json ).
+            should_receive( :put_json ).
             with( '/knowledge_items.json', '1234abcd', args ).
             once.
             and_return( :status => 'okay' )

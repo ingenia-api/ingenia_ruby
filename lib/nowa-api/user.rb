@@ -33,9 +33,9 @@ module Api
       KnowledgeItem.new( opts )
     end
 
-    def tags
-      @tags ||= RemoteSession.get_json('/tags.json', @api_key)['tags']
-    end
+#    def tags
+#      @tags ||= RemoteSession.get_json('/tags.json', @api_key)['tags']
+#    end
 
 #    def email
 #      attributes 'email'
