@@ -30,7 +30,8 @@ module Api
     end
 
     def self.put_json(path, key, args = {})
-      json = RestClient.put auth_url(key, path), args, :api_version => Nowa::Api::API_VERSION
+      args[:api_version] = Nowa::Api::API_VERSION
+      json = RestClient.put auth_url(key, path), args
       JSON.parse json
 
     rescue JSON::ParserError, RestClient::Exception
@@ -38,7 +39,8 @@ module Api
     end
 
     def self.post_json(path, key, args = {})
-      json = RestClient.post auth_url(key, path), args, :api_version => Nowa::Api::API_VERSION
+      args[:api_version] = Nowa::Api::API_VERSION
+      json = RestClient.post auth_url(key, path), args
       JSON.parse json
 
     rescue JSON::ParserError, RestClient::Exception

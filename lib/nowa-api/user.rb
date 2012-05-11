@@ -31,8 +31,7 @@ module Api
     end
 
     def create_ki(opts = {})
-      opts[:api_key] = @api_key
-      KnowledgeItem.new( opts )
+      KnowledgeItem.new( @api_key )
     end
 
 #    def tags

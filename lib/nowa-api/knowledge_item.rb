@@ -60,11 +60,16 @@ module Api
         res = RemoteSession.put_json  json_path, @api_key, :knowledge_item => to_hash
       end
 
-      if res && res['status'] == 'okay'
-        @dirty = false
-        return true
+      if res
+        if res['status'] == 'okay'
+          @dirty = false
+          return true
+        else
+          @save_errors = res['errors']
+          return false
+        end
       else
-        @save_errors = res['errors']
+        @save_errors = [ 'server error' ]
         return false
       end
     end
@@ -107,7 +112,7 @@ module Api
     def to_hash
       hash = {}
       hash[:title] = @title
-      hash[:tags] = @tags unless @tags.empty?
+      hash[:tags_s] = @tags unless @tags.empty?
 
       if @create_from.has_key? :text
         hash[:text] = @create_from[:text] 
