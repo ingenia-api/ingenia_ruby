@@ -59,22 +59,29 @@ describe Nowa::Api::KnowledgeItem do
 
       it 'posts new stuff to the server' do
 
+        tags_by_tagset = {
+          'ts1' => %w{ t1 t2 t3 },
+          'ts2' => %w{ t4 t5 t6 }
+        }
+
         post_args = {
+          :tags_by_tagset => tags_by_tagset.to_json,
           :knowledge_item => {
             :title => 'The new title',
-            :tags => 'Some different tags'
+            :url => 'http://example.com'
           }
         }
 
         Nowa::Api::RemoteSession.
           should_receive( :post_json ).
-          with( "/knowledge_items/123.json", '1234abcd', post_args ).
+          with( "/knowledge_items.json", '1234abcd', post_args ).
           once.
           and_return( :status => 'okay' )
 
-        ki = Nowa::Api::KnowledgeItem.new('1234abcd', 123).fetch
+        ki = Nowa::Api::KnowledgeItem.new('1234abcd')
         ki.title = 'The new title'
-        ki.tags = 'Some different tags'
+        ki.tags  = tags_by_tagset
+        ki.url   = 'http://example.com'
         ki.save
       end
 
@@ -160,13 +167,14 @@ describe Nowa::Api::KnowledgeItem do
 
         it 'calls remote json with correct params' do
           args = {
+            :tags_by_tagset => '""',
             :knowledge_item => {
               :title => '(untitled)',
               :url => 'http://www.example.com'
           } }
 
           Nowa::Api::RemoteSession.
-            should_receive( :put_json ).
+            should_receive( :post_json ).
             with( '/knowledge_items.json', '1234abcd', args ).
             once.
             and_return( :status => 'okay' )

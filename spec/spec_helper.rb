@@ -27,6 +27,8 @@ def stub_json_get(path, fixture, opts = {})
     url.password = ''
   end
 
+  url.query = "api_version=1.0"
+
   stub_request(:get, url.to_s).to_return(returns) 
 end
 

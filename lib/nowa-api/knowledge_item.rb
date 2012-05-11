@@ -55,9 +55,9 @@ module Api
       if new_record?
         raise "You need a source!" if @create_from.empty?
 
-        res = RemoteSession.post_json json_path, @api_key, :knowledge_item => to_hash
+        res = RemoteSession.post_json json_path, @api_key, :tags_by_tagset => tags_params, :knowledge_item => ki_params
       else
-        res = RemoteSession.put_json  json_path, @api_key, :knowledge_item => to_hash
+        res = RemoteSession.put_json  json_path, @api_key, :tags_by_tagset => tags_params, :knowledge_item => ki_params
       end
 
       if res
@@ -83,9 +83,10 @@ module Api
       @title = text
     end
 
-    def tags=(text)
+    def tags=(tags)
+      raise "tags needs to be a hash" unless tags.is_a? Hash
       @dirty = true
-      @tags = text
+      @tags = tags
     end
 
     def url=(url)
@@ -109,29 +110,35 @@ module Api
       @create_from = { :upload => path }
     end
 
-    def to_hash
+    def source
+      return @source if @source
+      @create_from.keys.join.to_s 
+    end
+
+
+    private
+
+    def ki_params
       hash = {}
       hash[:title] = @title
-      hash[:tags_s] = @tags unless @tags.empty?
 
       if @create_from.has_key? :text
-        hash[:text] = @create_from[:text] 
+        hash[:original_text] = @create_from[:text] 
 
       elsif @create_from.has_key? :url
         hash[:url] = @create_from[:url]
 
       elsif @create_from.has_key? :upload
-        hash[:upload] = @create_from[:upload]
+        hash[:original_file] = File.new(@create_from[:upload])
       end
 
       hash
     end
 
-    def source
-      return @source if @source
-      @create_from.keys.join.to_s 
+    def tags_params
+      @tags.to_json
     end
-      
+
     def json_path
       new_record? ? "/knowledge_items.json" : "/knowledge_items/#{@id}.json"
     end
