@@ -1,12 +1,11 @@
 
-$: << './lib'
+$: << File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'yaml'
 require 'nowa-api'
 
 
 user = Nowa::Api::User.new('Behdv67nNBpZe8szhwTW')
-
 
 ki = user.create_ki
 
@@ -16,12 +15,3 @@ ki.text = 'And some text about something'
 
 ki.save
 
-__END__
-
-puts user.knowledge_items.to_yaml
-
-
-
-#ki = user.find_ki 859
-
-#puts ki.to_yaml

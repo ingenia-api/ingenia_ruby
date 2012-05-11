@@ -52,9 +52,9 @@ module Api
       if new_record?
         raise "You need a source!" if @create_from.empty?
 
-        res = RemoteSession.post_json json_path, @api_key, :tags_by_tagset => tags_params, :knowledge_item => ki_params
+        res = RemoteSession.post_json json_path, @api_key, :tags_by_tag_set => tags_params, :knowledge_item => ki_params
       else
-        res = RemoteSession.put_json  json_path, @api_key, :tags_by_tagset => tags_params, :knowledge_item => ki_params
+        res = RemoteSession.put_json  json_path, @api_key, :tags_by_tag_set => tags_params, :knowledge_item => ki_params
       end
 
       if res
