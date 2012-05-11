@@ -15,13 +15,7 @@ module Api
     def self.get_json(path, key = nil, opts = {})
 
       url = auth_url(key, path)
-
-      puts "get_json(#{url})"
-
       json = RestClient.get url, :params => { :api_version => Nowa::Api::API_VERSION }
-
-      puts "response=#{json}"
-
       JSON.parse json
 
     rescue JSON::ParserError, RestClient::Exception
