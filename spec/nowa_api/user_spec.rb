@@ -68,14 +68,14 @@ describe Nowa::Api::User do
     end
   end
 
-  describe '#tags' do
-    it 'returns string of users tags' do
-      stub_json_get '/tags.json', 'user_tags.json', :auth_token => '1234abcd'
-
-      user = Nowa::Api::User.new('1234abcd')
-      user.tags.should == 'a string of tags'
-    end
-  end
+#  describe '#tags' do
+#    it 'returns string of users tags' do
+#      stub_json_get '/tags.json', 'user_tags.json', :auth_token => '1234abcd'
+#
+#      user = Nowa::Api::User.new('1234abcd')
+#      user.tags.should == 'a string of tags'
+#    end
+#  end
 
 
 end
