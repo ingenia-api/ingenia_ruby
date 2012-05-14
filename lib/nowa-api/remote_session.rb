@@ -19,7 +19,7 @@ module Api
       JSON.parse json
 
     rescue JSON::ParserError, RestClient::Exception
-      puts "failed (#{$!})"
+      #raise "failed (#{$!})"
       { :status => 'error', :message => $!.to_s }
     end
 

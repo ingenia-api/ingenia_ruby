@@ -5,7 +5,7 @@ require 'yaml'
 require 'nowa-api'
 
 
-user = Nowa::Api::User.new('Behdv67nNBpZe8szhwTW')
+user = Nowa::Api::User.new('LAmvvksiZmHQtortHSUh')
 
 ki = user.create_ki
 

@@ -15,7 +15,7 @@ def stub_json_get(path, fixture, opts = {})
     returns = {
       :body => '',
       :headers => { :content_type => "" }
-    }
+    } 
   end
 
   opts[:endpoint] = Nowa::Api.endpoint unless opts.has_key? :endpoint

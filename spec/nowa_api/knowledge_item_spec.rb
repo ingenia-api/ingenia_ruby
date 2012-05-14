@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Nowa::Api::KnowledgeItem do
 
+
   describe '::fetch' do
 
     it 'makes an object from remote data' do
