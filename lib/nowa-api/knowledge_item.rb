@@ -2,6 +2,8 @@
 module Nowa
   module Api
     
+
+
     class KnowledgeItem
 
       attr_reader \
@@ -115,13 +117,18 @@ module Nowa
 
       private
 
+      def json_path
+        new_record? ? "/api/knowledge_items.json" : "/knowledge_items/#{@id}.json"
+      end
+
+
       def ki_params
         hash = {}
         hash[:title] = @title
 
         if @create_from.has_key? :text
           hash[:text] = @create_from[:text] 
-
+        end
         # elsif @create_from.has_key? :url
         #   hash[:url] = @create_from[:url]
 
@@ -136,12 +143,9 @@ module Nowa
         @tags.to_json
       end
 
-      def json_path
-        new_record? ? "/api/knowledge_items.json" : "/knowledge_items/#{@id}.json"
-      end
+      
     end
 
-  end
   end
 end
 
