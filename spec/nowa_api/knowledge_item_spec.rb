@@ -68,14 +68,13 @@ describe Nowa::Api::KnowledgeItem do
         post_args = {
           :tags_by_tag_set => tags_by_tagset.to_json,
           :knowledge_item => {
-            :title => 'The new title',
-            :url => 'http://example.com'
+            :title => 'The new title'
           }
         }
 
         Nowa::Api::RemoteSession.
           should_receive( :post_json ).
-          with( "/knowledge_items.json", '1234abcd', post_args ).
+          with( "/api/knowledge_items.json", '1234abcd', post_args ).
           once.
           and_return( :status => 'okay' )
 
@@ -170,13 +169,12 @@ describe Nowa::Api::KnowledgeItem do
           args = {
             :tags_by_tag_set => '""',
             :knowledge_item => {
-              :title => '(untitled)',
-              :url => 'http://www.example.com'
+              :title => '(untitled)'
           } }
 
           Nowa::Api::RemoteSession.
             should_receive( :post_json ).
-            with( '/knowledge_items.json', '1234abcd', args ).
+            with( '/api/knowledge_items.json', '1234abcd', args ).
             once.
             and_return( :status => 'okay' )
 
