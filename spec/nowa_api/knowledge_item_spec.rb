@@ -65,7 +65,7 @@ describe Nowa::Api::KnowledgeItem do
         }
 
         post_args = {
-          :tags_by_tagset => tags_by_tagset.to_json,
+          :tags_by_tag_set => tags_by_tagset.to_json,
           :knowledge_item => {
             :title => 'The new title',
             :url => 'http://example.com'
@@ -167,7 +167,7 @@ describe Nowa::Api::KnowledgeItem do
 
         it 'calls remote json with correct params' do
           args = {
-            :tags_by_tagset => '""',
+            :tags_by_tag_set => '""',
             :knowledge_item => {
               :title => '(untitled)',
               :url => 'http://www.example.com'
