@@ -142,5 +142,6 @@ module Nowa
     end
 
   end
+  end
 end
 
