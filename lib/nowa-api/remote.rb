@@ -10,7 +10,7 @@ module Api
 
     def get(key, path, opts = {})
       opts[:api_version] ||= API_VERSION
-      json = RestClient.get authorized_url_for(key, path), opts
+      json = RestClient.get authorized_url_for(key, path), :params => opts
       JSON.parse json
 
     rescue RestClient::BadRequest => e
