@@ -4,14 +4,11 @@ $: << File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'yaml'
 require 'nowa-api'
 
+key = 'Behdv67nNBpZe8szhwTW'
 
-user = Nowa::Api::User.new('LAmvvksiZmHQtortHSUh')
+#res = Nowa::Api.classify key, "This is some text to classify"
+#puts res.to_yaml
 
-ki = user.create_ki
-
-ki.title = 'A new KI'
-ki.tags = { 'industry' => %w{ power metal rock big small light heavy }, 'kittens' => %w{ fluffy small cute evil } }
-ki.text = 'And some text about something'
-
-ki.save
+res = Nowa::Api.learn key, "Learn from this text", [ 'some', 'tags', 'for', 'this', 'text' ]
+puts res.to_yaml
 
