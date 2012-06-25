@@ -8,14 +8,6 @@ module Nowa
 
     extend self
 
-    def status
-      Remote.get(nil, '/status')
-    end
-
-    def user_status(key)
-      Remote.get(key, '/api/user/status.json')
-    end
-
     def classify(key, text)
       Remote.put(key, '/api/knowledge_items.json', :text => text)
     end

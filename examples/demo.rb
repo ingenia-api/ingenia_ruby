@@ -4,7 +4,7 @@ $: << File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'yaml'
 require 'nowa-api'
 
-key = 'Behdv67nNBpZe8szhwTW'
+key = 'Fe57r3wyzPLUM4ivjsyL'
 
 puts "#\n# classify\n#"
 
