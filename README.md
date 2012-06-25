@@ -36,3 +36,53 @@ Ruby public interface to classify text
 
     # returns hash of all the tags where each tag shows whether it has been learnt from 
     # and its name and the number of KIs. Also shows total number of KIs
+ 
+# to test
+
+## classify
+
+  request:
+    
+    curl --data "text=\"hello world\"&tags=\"[\"tag1\",\"tag2\"]\"" "http://YOUR_KEY:@localhost:3000/classify"
+
+  response:
+    
+    {
+      "classifications":[],
+      "classification_status":"pending_word_count",
+      "knowledge_item_id":97484,
+      "version":"1.0",
+      "status":"okay"
+    }
+
+## train
+
+  - with simple tag array
+
+  request: 
+    
+    curl --data "text=\"hello world\"&tags=[\"tag1\",\"tag2\"]" "http://YOUR_KEY:@localhost:3000/train"
+
+  response:
+
+    {
+      "knowledge_item_id":97484,
+      "version":"1.0",
+      "status":"okay"
+    }
+
+
+  - with complex tagset
+
+  request:
+
+    curl --data "text=\"hello world\"&tag_sets={\"tag_set_1\":[\"tag1\",\"tag2\"],\"tag_set_2\":[\"tag3\",\"tag4\"]}" "http://YOUR_KEY:@localhost:3000/train"
+
+  response:
+
+    {
+      "knowledge_item_id":97484,
+      "version":"1.0",
+      "status":"okay"
+    }
+
