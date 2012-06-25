@@ -24,7 +24,7 @@ module Api
       { :status => 'error', :message => e.to_s }
     end
 
-    def put(key, path, opts = {})
+    def post(key, path, opts = {})
       opts[:api_version] ||= API_VERSION
       json = RestClient.post authorized_url_for(key, path), opts
       JSON.parse json
