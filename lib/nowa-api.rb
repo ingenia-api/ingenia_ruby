@@ -1,38 +1,23 @@
 
 require 'restclient'
 require 'json'
-
-load_list = %w{ 
-  version 
-  knowledge_item 
-  user 
-  exceptions
-  remote_session
-}
-
-load_list.each do |mod|
-  require "nowa-api/#{mod}"
-end
+require 'nowa-api/remote'
 
 module Nowa
   module Api
 
-    DEFAULT_ENDPOINT = 'localhost:3000'
-    API_VERSION = '1.0'
-
     extend self
 
-    def status
-      RemoteSession.get_json('/status')
+    def classify(key, text)
+      Remote.post(key, '/classify', :text => text)
     end
 
-    def endpoint
-      @endpoint || DEFAULT_ENDPOINT
-    end
-    
-    def endpoint=(ep)
-      ep.sub!( /^https?:\/\//, '' ) unless ep.nil?
-      @endpoint = ep
+    def train(key, text, tags = {})
+      if tags.is_a? Array
+        Remote.post(key, '/train', :text => text, :tags => tags.to_json)
+      else
+        Remote.post(key, '/train', :text => text, :tag_sets => tags.to_json)
+      end
     end
   end
 end
