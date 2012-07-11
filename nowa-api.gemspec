@@ -13,5 +13,5 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = "nowa-api"
   gem.require_paths = ["lib"]
-  gem.version       = Nowa::Api::VERSION
+  gem.version       = "0.0.1"
 end
