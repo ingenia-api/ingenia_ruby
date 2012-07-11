@@ -14,6 +14,6 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = "0.0.1"
 
-  gem.add_dependency('rest_client')
+  gem.add_dependency('rest-client')
   gem.add_dependency('json')
 end
