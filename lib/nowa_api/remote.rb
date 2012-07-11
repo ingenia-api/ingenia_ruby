@@ -3,7 +3,7 @@ module Nowa
 module Api
 
   module Remote
-    ENDPOINT = 'localhost:3000'
+    ENDPOINT = 'ingeniapi.com'
     API_VERSION = '1.0'
 
     extend self
