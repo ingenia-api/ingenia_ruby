@@ -2,7 +2,7 @@
 $: << File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'yaml'
-require 'nowa-api'
+require 'nowa_api'
 
 key = 'Fe57r3wyzPLUM4ivjsyL'
 

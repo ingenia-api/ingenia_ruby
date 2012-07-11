@@ -1,5 +1,5 @@
 
-require 'nowa-api'
+require 'nowa_api'
 require 'webmock/rspec'
 
 def stub_json_get(path, fixture, opts = {})

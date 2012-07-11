@@ -1,7 +1,7 @@
 
 require 'restclient'
 require 'json'
-require 'nowa-api/remote'
+require 'nowa_api/remote'
 
 module Nowa
   module Api

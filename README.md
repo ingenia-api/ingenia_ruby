@@ -7,7 +7,7 @@ Ruby public interface to classify text
 # How to use and what you get back
 
     # require gem
-    require 'nowa-api'
+    require 'nowa_api'
 
     # define user key, get this from retechnica
     key = 'Behdv67nNBpZe8szhwTW'
