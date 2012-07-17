@@ -34,6 +34,16 @@ describe Nowa::Api do
       Nowa::Api.train '1234', 'some text', tags
     end
   end
+
+  describe '::endpoint' do
+
+    it 'can be set' do
+
+      Nowa::Api::Remote.endpoint = 'hoopla.com'
+
+      Nowa::Api::Remote.send( :authorized_url_for, 'foo', '/bar' ).should == 'http://foo:@hoopla.com/bar'
+    end
+  end
   
 end
 

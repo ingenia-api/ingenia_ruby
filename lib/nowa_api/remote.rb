@@ -40,12 +40,16 @@ module Api
       { :status => 'error', :message => e.to_s }
     end
 
+    def endpoint=(s)
+      @endpoint = s
+    end
+
     private
 
     def authorized_url_for(key, path)
       url = 'http://'
       url += "#{key}:@" if key
-      url += ENDPOINT
+      url += @endpoint || ENDPOINT
       url += path
     end
   end
