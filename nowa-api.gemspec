@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Ivan Kocienski"]
-  gem.email         = ["ivan.kocienski@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.authors       = ["Ivan Kocienski", "Joran Kikke"]
+  gem.email         = ["ivan.kocienski@gmail.com", "joran.k@gmail.com"]
+  gem.description   = 
+  gem.summary       = "API wrapper for Ingenia"
+  gem.homepage      = "www.ingenapi.com"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
