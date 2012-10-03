@@ -19,5 +19,9 @@ module Nowa
         Remote.post(key, '/train', :text => text, :tag_sets => tags.to_json)
       end
     end
+
+    def trained_tags(key)
+      Remote.get(key, '/learnt_tags')
+    end
   end
 end

@@ -35,6 +35,14 @@ describe Nowa::Api do
     end
   end
 
+  describe '::trained_tags' do
+    it 'calls remote url correctly' do
+      Nowa::Api::Remote.should_receive( :get ).with( '1234', '/learnt_tags')
+
+      Nowa::Api.trained_tags '1234'
+    end
+  end
+
   describe '::endpoint' do
 
     it 'can be set' do
