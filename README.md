@@ -1,4 +1,4 @@
-Nowa-API-gem
+Ingenia Ruby gem
 ============
 
 Ruby public interface to classify text
@@ -9,7 +9,7 @@ Ruby public interface to classify text
     # require gem
     require 'nowa_api'
 
-    # define user key, get this from retechnica
+    # define user key, get this from Ingenia
     key = 'Behdv67nNBpZe8szhwTW'
 
     ##########
