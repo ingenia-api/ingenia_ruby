@@ -43,17 +43,25 @@ Ruby public interface to classify text
 
   request:
     
-    curl --data "text=\"hello world\"&tags=\"[\"tag1\",\"tag2\"]\"" "http://YOUR_KEY:@localhost:3000/classify"
+    curl "http://ingeniapi.com/classify?auth_token=<API KEY>" -d 'api_version=1.0&text=text to classify'
 
   response:
     
     {
-      "classifications":[],
-      "classification_status":"pending_word_count",
-      "knowledge_item_id":97484,
-      "version":"1.0",
-      "status":"okay"
+        "classification_status":"complete",
+        "results":{
+            "category":{
+                "education":0.148,
+                "economics":0.013
+            },
+            "geography":{
+                "europe":1.0
+            } 
+        },
+        "api_version":"1.0",
+        "status":"okay"
     }
+
 
 ## train
 
@@ -61,28 +69,27 @@ Ruby public interface to classify text
 
   request: 
     
-    curl --data "text=\"hello world\"&tags=[\"tag1\",\"tag2\"]" "http://YOUR_KEY:@localhost:3000/train"
+    curl -X POST "http://ingeniapi.com/train?auth_token=<API KEY>" -d 'api_version=1.0&text=text to train&tags=["University","Exam"]'
 
   response:
 
-    {
-      "knowledge_item_id":97484,
-      "version":"1.0",
+    { 
+      "training_id":350288,
+      "api_version":"1.0",
       "status":"okay"
     }
-
 
   - with complex tagset
 
   request:
 
-    curl --data "text=\"hello world\"&tag_sets={\"tag_set_1\":[\"tag1\",\"tag2\"],\"tag_set_2\":[\"tag3\",\"tag4\"]}" "http://YOUR_KEY:@localhost:3000/train"
+    curl -X POST "http://ingeniapi.com/train?auth_token=<API KEY>" -d 'api_version=1.0&text=text to train&tag_sets={"Type":["University","Exam"],"Topics":["Software"],"Keywords":["Distinction"]}'
 
   response:
 
-    {
-      "knowledge_item_id":97484,
-      "version":"1.0",
+    { 
+      "training_id":350289,
+      "api_version":"1.0",
       "status":"okay"
     }
 
