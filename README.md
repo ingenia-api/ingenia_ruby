@@ -44,6 +44,8 @@ and its name and the number of KIs. Also shows total number of KIs
  
 ## Manual tests
 
+Note: windows does not correctly handle single and double quotes, so the following examples will not work on windows
+
 ## classify
 
   request:
