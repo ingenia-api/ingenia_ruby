@@ -5,7 +5,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["ivan.kocienski@gmail.com", "joran.k@gmail.com"]
   gem.description   = 
   gem.summary       = "API wrapper for Ingenia"
-  gem.homepage      = "http://www.ingenapi.com"
+  gem.homepage      = "http://www.ingeniapi.com"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
