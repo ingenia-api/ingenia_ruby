@@ -72,7 +72,7 @@ Note: windows does not correctly handle single and double quotes, so the followi
 
 ## train
 
-  - with simple tag array
+### with simple tag array
 
   request: 
     
@@ -86,7 +86,7 @@ Note: windows does not correctly handle single and double quotes, so the followi
       "status":"okay"
     }
 
-  - with complex tagset
+ ### with complex tagset
 
   request:
 
@@ -99,4 +99,3 @@ Note: windows does not correctly handle single and double quotes, so the followi
       "api_version":"1.0",
       "status":"okay"
     }
-
