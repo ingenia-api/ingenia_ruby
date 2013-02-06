@@ -3,6 +3,7 @@ module Nowa
 module Api
 
   module Remote
+    PDF_ENDPOINT = 'ingeniapi.com:8080'
     ENDPOINT = 'ingeniapi.com'
     API_VERSION = '1.0'
 
@@ -25,8 +26,9 @@ module Api
     end
 
     def post(key, path, opts = {})
+      
       opts[:api_version] ||= API_VERSION
-      json = RestClient.post authorized_url_for(key, path), opts
+      json = RestClient.post authorized_url_for(key, path, opts[:endpoint]), opts
       JSON.parse json
 
     rescue RestClient::BadRequest => e
@@ -46,10 +48,10 @@ module Api
 
     private
 
-    def authorized_url_for(key, path)
+    def authorized_url_for(key, path, ep=nil)
       url = 'http://'
       url += "#{key}:@" if key
-      url += @endpoint || ENDPOINT
+      url += ep || @endpoint || ENDPOINT
       url += path
     end
   end

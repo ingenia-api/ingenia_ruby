@@ -20,6 +20,20 @@ module Nowa
       end
     end
 
+    def classify_file(key, file_path)
+
+      args = Remote.post(
+        key, 
+        '/extract_text', 
+        :auth_token => key,
+        :file => File.new(file_path, 'rb'), 
+        :endpoint => Remote::PDF_ENDPOINT
+      )
+
+      classify key, args['text']
+
+    end
+
     def trained_tags(key)
       Remote.get(key, '/learnt_tags')
     end
