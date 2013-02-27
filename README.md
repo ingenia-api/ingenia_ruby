@@ -45,6 +45,7 @@ Nowa::Api.train "Learn from this text", [ 'some', 'tags', 'for', 'this', 'text' 
 
 response:
 
+```plaintext
   { 
     "tag_sets": {
       "TAG_SET_NAME": {
@@ -58,6 +59,7 @@ response:
       }
     }
   }
+```
 
 notes:
   
@@ -104,9 +106,9 @@ response:
 notes:
   
   Classification status can be one of:
-    classified: normal response with all fields filled.
-    unrecognised: no classification was possible, empty results state.
-    timeout: classifier was too busy at the time the call was made.
+    * classified: normal response with all fields filled.
+    * unrecognised: no classification was possible, empty results state.
+    * timeout: classifier was too busy at the time the call was made.
 
   Tag sets are not guarenteed to be in any particular order.
   Tag set tags are ordered by score with a maximum of six tags per tag set.
