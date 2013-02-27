@@ -88,6 +88,7 @@ Nowa::Api.classify "This is some text to classify"
 
 response:   
 
+```plaintext
   {
     "classification_status":"STATUS",
     "results":{
@@ -102,13 +103,14 @@ response:
       }
     }
   }
+```
 
 notes:
   
   Classification status can be one of:
-    * classified: normal response with all fields filled.
-    * unrecognised: no classification was possible, empty results state.
-    * timeout: classifier was too busy at the time the call was made.
+  *  classified: normal response with all fields filled.
+  *  unrecognised: no classification was possible, empty results state.
+  *  timeout: classifier was too busy at the time the call was made.
 
   Tag sets are not guarenteed to be in any particular order.
   Tag set tags are ordered by score with a maximum of six tags per tag set.
