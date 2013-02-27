@@ -63,9 +63,9 @@ response:
 
 notes:
   
-  Tag set "id" fields and tag TAG_N_ID fields represent the internal ID of those data structures. These
-  values are not currently used by any API as passable arguments and so do not need to be stored by the
-  end user.
+Tag set "id" fields and tag TAG_N_ID fields represent the internal ID of those data structures. These
+values are not currently used by any API as passable arguments and so do not need to be stored by the
+end user.
 
 
 
@@ -107,14 +107,14 @@ response:
 
 notes:
   
-  Classification status can be one of:
-  *  classified: normal response with all fields filled.
-  *  unrecognised: no classification was possible, empty results state.
-  *  timeout: classifier was too busy at the time the call was made.
+Classification status can be one of:
+*  classified: normal response with all fields filled.
+*  unrecognised: no classification was possible, empty results state.
+*  timeout: classifier was too busy at the time the call was made.
 
-  Tag sets are not guarenteed to be in any particular order.
-  Tag set tags are ordered by score with a maximum of six tags per tag set.
-  Tag scores are always to 4 decimal places.
+Tag sets are not guarenteed to be in any particular order.
+Tag set tags are ordered by score with a maximum of six tags per tag set.
+Tag scores are always to 4 decimal places.
   
 
 
