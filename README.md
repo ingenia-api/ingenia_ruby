@@ -84,6 +84,8 @@ response:
 Nowa::Api.classify "This is some text to classify"
 ```
 
+response:   
+
   {
     "classification_status":"STATUS",
     "results":{
@@ -110,6 +112,7 @@ notes:
   Tag set tags are ordered by score with a maximum of six tags per tag set.
   Tag scores are always to 4 decimal places.
   
+
 
 
 ## More Information
