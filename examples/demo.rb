@@ -4,7 +4,39 @@ $: << File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'yaml'
 require 'nowa_api'
 
-key = 'VNgUqeyeHZpp6x6p78pp'
+def demo(name)
+
+  puts "\n\n"
+  puts "#\n# Nowa::Api.#{name}\n#"
+
+  output = yield
+
+  puts "output:#{output.to_yaml}"
+
+end
+
+def main
+
+  # set this only once, module will remember it always
+  Nowa::Api.api_key  = 'VNgUqeyeHZpp6x6p78pp'
+  Nowa::Api.endpoint = 'api.test.ingeniapi.com'
+  Nowa::Api.debug    = true
+
+
+  demo "classify" do
+    Nowa::Api.classify "This is some text to classify"
+  end
+
+  demo "learn" do
+    Nowa::Api.train "Learn from this text", [ 'some', 'tags', 'for', 'this', 'text' ]
+  end
+
+end
+
+main if $0 == __FILE__
+
+__END__
+
 
 puts "#\n# classify PDF\n#"
 
@@ -31,19 +63,3 @@ end_time = Time.now
 puts '=' * 80
 
 puts "Done #{count} in #{end_time - start_time}s (#{count / (end_time - start_time)} docs per second)"
-
-__END__
-
-puts "#\n# classify\n#"
-
-res = Nowa::Api.classify key, "This is some text to classify"
-puts res.to_yaml
-
-puts "#\n# learn\n#"
-res = Nowa::Api.learn key, "Learn from this text", [ 'some', 'tags', 'for', 'this', 'text' ]
-puts res.to_yaml
-
-puts "#\n# status\n#"
-res = Nowa::Api.user_status key
-puts res.to_yaml
-
