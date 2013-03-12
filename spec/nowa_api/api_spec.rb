@@ -2,19 +2,31 @@ require 'spec_helper'
 
 describe Nowa::Api do
 
+  let( :empty_api_response ) { { 'status' => 'okay', 'data' => {} } }
+
+  before :each do
+    Nowa::Api.api_key = '1234'
+  end
+
   describe '::classify' do
     it 'calls remote url properly' do
-      Nowa::Api::Remote.should_receive( :post ).with( '1234', '/classify', :text => 'some text' )
 
-      Nowa::Api.classify '1234', 'some text'
+      Nowa::Api::Remote.should_receive( :post ).
+        with( '/classify', :text => 'some text', :api_key => '1234' ).
+        and_return( empty_api_response )
+
+      Nowa::Api.classify 'some text'
     end
   end
 
   describe '::train' do
     it 'calls remote url properly with array tags' do
-      Nowa::Api::Remote.should_receive( :post ).with( '1234', '/train', :text => 'some text', :tags => %w{ some tags }.to_json )
 
-      Nowa::Api.train '1234', 'some text', %w{ some tags }
+      Nowa::Api::Remote.should_receive( :post ).
+        with( '/train', :text => 'some text', :tags => %w{ some tags }.to_json, :api_key => '1234' ).
+        and_return( empty_api_response )
+
+      Nowa::Api.train 'some text', %w{ some tags }
     end
 
     it 'calls remote url properly with nested tags' do
@@ -26,30 +38,33 @@ describe Nowa::Api do
 
       test_payload = {
         :text => 'some text',
-        :tag_sets => tags.to_json
+        :tag_sets => tags.to_json,
+        :api_key => '1234'
       }
 
-      Nowa::Api::Remote.should_receive( :post ).with( '1234', '/train', test_payload )
+      Nowa::Api::Remote.should_receive( :post ).
+        with( '/train', test_payload ).
+        and_return( empty_api_response )
 
-      Nowa::Api.train '1234', 'some text', tags
-    end
-  end
-
-  describe '::trained_tags' do
-    it 'calls remote url correctly' do
-      Nowa::Api::Remote.should_receive( :get ).with( '1234', '/learnt_tags')
-
-      Nowa::Api.trained_tags '1234'
+      Nowa::Api.train 'some text', tags
     end
   end
 
   describe '::endpoint' do
 
+    it 'is default' do
+      Nowa::Api::Remote.endpoint.should == 'api.ingeniapi.com'
+    end
+
     it 'can be set' do
+      Nowa::Api::endpoint = 'hoopla.com'
+      Nowa::Api::Remote.endpoint.should == 'hoopla.com'
+    end
 
-      Nowa::Api::Remote.endpoint = 'hoopla.com'
-
-      Nowa::Api::Remote.send( :authorized_url_for, 'foo', '/bar' ).should == 'http://foo:@hoopla.com/bar'
+    it 'can take port numbers' do
+      Nowa::Api::endpoint = 'hoopla.com:8080'
+      Nowa::Api::Remote.endpoint.should == 'hoopla.com'
+      Nowa::Api::Remote.port.should == 8080
     end
   end
   
