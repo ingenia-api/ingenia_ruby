@@ -46,18 +46,23 @@ Nowa::Api.train "Learn from this text", [ 'some', 'tags', 'for', 'this', 'text' 
 response:
 
 ```plaintext
-  { 
-    "tag_sets": {
-      "TAG_SET_NAME": {
-        "id": TAG_SET_ID,
-        "tags", { 
-          "TAG_1": TAG_1_ID, 
-          "TAG_2": TAG_2_ID, 
-          ..., 
-          "TAG_N": TAG_N_ID 
-        }
-      }
-    }
+  {
+    "tag_sets":
+      {
+        "Default":
+          {
+            "id":156, 
+            "tags":
+              {
+                "some":105074, 
+                "tags"=>105075, 
+                "for"=>105076, 
+                "this"=>105077, 
+                "text"=>105078
+              }
+          }
+      }, 
+    "training_id":385872
   }
 ```
 
@@ -76,29 +81,52 @@ Nowa::Api.train "Learn from this text", { 'Subject' => [ 'learning', 'examples' 
 ```
 
 response:
-  
-  See above.
 
+```plaintext
+  {
+    "tag_sets":
+      {
+        "Subject":
+          {
+            "id":158, 
+            "tags":
+              {
+                "learning":105081, 
+                "examples":105075
+              }
+          },
+        "Category":
+          {
+            "id":159, 
+            "tags":
+              {
+                "help":105082
+              }
+          }
+      }, 
+    "training_id":385872
+  }
+```
+ 
 
 **Classify**
 
 ```ruby
-Nowa::Api.classify "This is some text to classify"
+Nowa::Api.classify "This is some text to classify about ruby on rails and rake"
 ```
 
 response:   
 
 ```plaintext
   {
-    "classification_status":"STATUS",
+    "classification_status":"complete", 
     "results":{
-      "TAG_SET_NAME":{
+      "Software":{
         "tags":[
-          { "id": TAG_ID_1, "name": "TAG_NAME_1", "score": SCORE_1 },
-          { "id": TAG_ID_2, "name": "TAG_NAME_2", "score": SCORE_2 },
-          ...
-          { "id": TAG_ID_N, "name": "TAG_NAME_N", "score": SCORE_N }
-        ],
+          {"id":1951, "name":"ruby on rails", "score":1.0}, 
+          {"id":2092, "name":"ruby", "score":1.0}, 
+          {"id":4822, "name":"rake", "score":0.362}
+        ], 
         "id":9
       }
     }
@@ -108,9 +136,10 @@ response:
 notes:
   
 Classification status can be one of:
-*  classified: normal response with all fields filled.
+*  complete: normal response with all fields filled.
 *  unrecognised: no classification was possible, empty results state.
 *  timeout: classifier was too busy at the time the call was made.
+*  not_run: some other error stopped the classifications from returning
 
 Tag sets are not guarenteed to be in any particular order.
 Tag set tags are ordered by score with a maximum of six tags per tag set.
