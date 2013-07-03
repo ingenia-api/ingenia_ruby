@@ -1,26 +1,17 @@
 
 # Ingenia Ruby gem
+A Gem to wrap the Ingenia API
 
-A Gem to wrap the API calls of Ingenia.
 
-
-## Installation
+### Installation
 ```sh
 gem install nowa_api
 ```
 
 
+### Configuration
 
-## Conventions used in this document 
-
-All text in UPPERCASE represents a changeable field, either user supplied or as part of a response.
-
-
-
-
-## Configuration
-
-Before any call is made you must first set API key. At the moment this done in module code so the key must be changed if more than one key is being used.
+Before any call is made you must first set your ingeniapi API key:
 
 ```ruby
 Nowa::Api.api_key = 'YOUR_KEY'
@@ -28,22 +19,16 @@ Nowa::Api.api_key = 'YOUR_KEY'
 
 
 
-## Errors and Exceptions
-
-Exceptions raised by the HTTP, JSON or API calls are all funnelled through a Nowa::Api::CallFailed exception.
-
-
-
-
 ## Usage Examples
 
-**Train**
+###Training
+To make an API call to show ingenia that some text is known to be associated with some tags. This action also creates an Item.
 
 ```ruby
-Nowa::Api.train "Learn from this text", [ 'some', 'tags', 'for', 'this', 'text' ]
+Nowa::Api.train "I enjoy icecream", [ 'food', 'icecream', 'positive' ]
 ```
 
-response:
+**response:**
 
 ```plaintext
   {
@@ -54,11 +39,9 @@ response:
             "id":156, 
             "tags":
               {
-                "some":105074, 
-                "tags"=>105075, 
-                "for"=>105076, 
-                "this"=>105077, 
-                "text"=>105078
+                "food":105074, 
+                "icecream"=>105075, 
+                "positve"=>105076
               }
           }
       }, 
@@ -66,18 +49,12 @@ response:
   }
 ```
 
-notes:
-  
-Tag set "id" fields and tag TAG_N_ID fields represent the internal ID of those data structures. These
-values are not currently used by any API as passable arguments and so do not need to be stored by the
-end user.
 
-
-
-**More complicated train with sets of tags**
+###Training with sets of tags
+Train ingenia that a text item is associated with tags in different groups, or Tag Sets.
 
 ```ruby
-Nowa::Api.train "Learn from this text", { 'Subject' => [ 'learning', 'examples' ], 'Category' => [ 'help' ] }
+Nowa::Api.train "Is icecream safe?", { 'Subject' => [ 'food', 'safety' ], 'Category' => [ 'question' ] }
 ```
 
 response:
@@ -91,8 +68,8 @@ response:
             "id":158, 
             "tags":
               {
-                "learning":105081, 
-                "examples":105075
+                "food":105081, 
+                "safety":105075
               }
           },
         "Category":
@@ -100,7 +77,7 @@ response:
             "id":159, 
             "tags":
               {
-                "help":105082
+                "question":105082
               }
           }
       }, 
@@ -109,10 +86,11 @@ response:
 ```
  
 
-**Classify**
+###Classification
+Ask Ingenia to identify which tags are most relevant to some text. This call does not create an Item.
 
 ```ruby
-Nowa::Api.classify "This is some text to classify about ruby on rails and rake"
+Nowa::Api.classify "what is the difference between ruby on rails and rake?"
 ```
 
 response:   
@@ -134,23 +112,16 @@ response:
 ```
 
 notes:
-  
-Classification status can be one of:
-*  complete: normal response with all fields filled.
-*  unrecognised: no classification was possible, empty results state.
-*  timeout: classifier was too busy at the time the call was made.
-*  not_run: some other error stopped the classifications from returning
 
-Tag sets are not guarenteed to be in any particular order.
-Tag set tags are ordered by score with a maximum of six tags per tag set.
-Tag scores are always to 4 decimal places.
+- Tag set tags are ordered by score with a maximum of six tags per tag set.
+- Tag scores are always to 4 decimal places - 1.0 being the strongest affinity and 0.001 the weakest.
   
 
 
 
 ## More Information
 
-See http://ingenia.com/reference for full low level API specifications.
+See http://ingeniapi.com/reference for more details of the API.
 
 
 
