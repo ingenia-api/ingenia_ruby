@@ -89,6 +89,8 @@ Nowa::Api.train "Is icecream safe?", { 'Subject' => [ 'food', 'safety' ], 'Categ
 ###Classification
 Ask Ingenia to identify which tags are most relevant to some text. This call does not create an Item.
 
+Classification will only work once you have done some training and Ingenia has an understanding of your Tags.
+
 ```ruby
 Nowa::Api.classify "what is the difference between ruby on rails and rake?"
 ```
@@ -115,6 +117,21 @@ notes:
 
 - Tag set tags are ordered by score with a maximum of six tags per tag set.
 - Tag scores are always to 4 decimal places - 1.0 being the strongest affinity and 0.001 the weakest.
+
+###Similar To
+Find Items that are similar to a given Item, by both tags and words.
+
+```ruby
+item = Nowa::Item.create("What is similar to me?")
+Nowa::Api.similar_to item['id']
+```
+
+**response:** 
+
+```plaintext
+  {"ki"=>{"id"=>394688}, "mode"=>"tag", "distance"=>0.4}
+```
+
   
 
 ## Items
