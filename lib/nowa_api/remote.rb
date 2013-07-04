@@ -11,44 +11,38 @@ module Api
     extend self
 
     def get(path, opts = {})
-      opts[:api_version] ||= API_VERSION
-      
-      url  = URI::HTTP.build( :host => endpoint, :path => path )
-      url.port = port if port
-      json = RestClient.get url.to_s, :params => opts
-      
-      JSON.parse json
+      handle_request do
+        uri = build_uri(path, opts)
 
-    rescue RestClient::BadRequest => e
-      if e.response.nil?
-        { 'status' => 'error', 'message' => e.to_s }
-      else
-        JSON.parse e.response
+        json = RestClient.get uri.to_s, :params => opts
+        
+        JSON.parse json
       end
-
-    rescue JSON::ParserError => e
-      { 'status' => 'error', 'message' => e.to_s }
     end
 
     def post(path, opts = {})
-      
-      opts[:api_version] ||= API_VERSION
-      
-      url  = URI::HTTP.build( :host => endpoint, :path => path )
-      url.port = port if port
-      json = RestClient.post url.to_s, opts
+      handle_request do
+        uri = build_uri(path, opts)
+        json = RestClient.post uri.to_s, opts
 
-      JSON.parse json
-
-    rescue RestClient::BadRequest => e
-      if e.response.nil?
-        { 'status' => 'error', 'message' => e.to_s }
-      else
-        JSON.parse e.response
+        JSON.parse json
       end
+    end
 
-    rescue JSON::ParserError => e
-      { 'status' => 'error', 'message' => e.to_s }
+    def put(path, opts = {})
+      handle_request do
+        uri = build_uri(path, opts)
+        json = RestClient.put uri.to_s, opts
+        JSON.parse json
+      end
+    end
+
+    def delete(path, opts = {})
+      handle_request do
+        uri = build_uri(path, opts)
+        json = RestClient.delete uri.to_s, opts
+        JSON.parse json
+      end
     end
 
     def endpoint=(str)
@@ -66,6 +60,39 @@ module Api
       @endpoint || ENDPOINT
 
     end 
+
+    private
+
+    def handle_request
+      begin
+
+        yield
+      
+      rescue RestClient::BadRequest => e
+        if e.response.nil?
+          { 'status' => 'error', 'message' => e.to_s }
+        else
+          JSON.parse e.response
+        end
+
+      rescue RestClient::UnprocessableEntity => e
+        JSON.parse e.response
+
+      rescue JSON::ParserError => e
+        { 'status' => 'error', 'message' => e.to_s }
+
+      end
+    end
+
+    def build_uri(path, opts = {})
+      opts[:api_version] ||= API_VERSION
+      
+      url  = URI::HTTP.build( :host => endpoint, :path => path )
+      url.port = port if port
+
+      url
+    end
+
   end
 
 end

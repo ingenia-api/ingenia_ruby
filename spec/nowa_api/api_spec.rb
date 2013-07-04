@@ -50,6 +50,17 @@ describe Nowa::Api do
     end
   end
 
+  describe '::similar_to' do
+    it 'calls remote url properly' do
+
+      Nowa::Api::Remote.should_receive( :get ).
+        with( "/similar_to/1", :api_key => '1234', :limit => 10 ).
+        and_return( empty_api_response )
+
+      Nowa::Api.similar_to 1
+    end
+  end
+
   describe '::endpoint' do
 
     it 'is default' do

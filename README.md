@@ -57,7 +57,7 @@ Train ingenia that a text item is associated with tags in different groups, or T
 Nowa::Api.train "Is icecream safe?", { 'Subject' => [ 'food', 'safety' ], 'Category' => [ 'question' ] }
 ```
 
-response:
+**response:**
 
 ```plaintext
   {
@@ -93,7 +93,7 @@ Ask Ingenia to identify which tags are most relevant to some text. This call doe
 Nowa::Api.classify "what is the difference between ruby on rails and rake?"
 ```
 
-response:   
+**response:** 
 
 ```plaintext
   {
@@ -117,6 +117,90 @@ notes:
 - Tag scores are always to 4 decimal places - 1.0 being the strongest affinity and 0.001 the weakest.
   
 
+## Items
+Items are text items, optionally with tags, that you want to permanently store on Ingenia for use with similar-to or to be continually classified. 
+
+When you create one Ingenia will return a unique id that lets you keep track of the item - you should store this on your system.
+
+### Create a plain Item
+```ruby
+Nowa::Item.create("How long do elephants remember?")
+```
+
+### Create an Item with Tags
+To create an item with tags, you must first have created the tags and have their ids, then pass them as an array.
+
+```ruby
+Nowa::Item.create("How long to elephants remember?", [32, 51, 6])
+```
+
+### Item CRUD
+	item = Nowa::Item.create("How do you make cheese?")
+	
+	# Store the item id
+	id = item['id']
+	
+	# update the item
+	item = Nowa::Item.update(id, "How do you eat cheese?")
+	
+	# Get an item, together with it's most recent classifications
+	item = Nowa::Item.get(id)
+	
+	# Remove an item
+	Nowa::Item.delete(id)
+	
+
+## Tags
+Tags, or categories, are meaningful words or expressions that you want to associate with your content.
+
+### Create a tag
+```ruby
+Nowa::Tag.create("Science", 10)
+```
+
+### Tag CRUD
+	tag = Nowa::Tag.create("Science", 10)
+		
+	# Store the tag id
+	id = tag['id']
+	
+	# update the tag
+	tag = Nowa::Tag.update(id, "Scientific Theory")
+	
+	# Get a tag
+	tag = Nowa::Tag.get(id)
+	
+	# Remove a tag
+	Nowa::Tag.delete(id)
+	
+
+## Tag Sets
+Tag sets are thematically consistent groups of tags, such as, say, world countries, business sectors, product types, companies, concepts, topics, etc. 
+Tag Sets are used to groups tags that share a common meaning. For example, tags that relate to the subject of an item ("science", "marketing") could be separated from ones that relate to urgency, sender or document type.  
+
+Each tag must belong to at least one set. 
+
+Classification calls will show tags grouped by their tagsets.
+
+### Create a TagSet
+```ruby
+Nowa::TagSet.create("Topic")
+```
+
+### TagSet CRUD
+	tagset = Nowa::TagSet.create("Urgency")
+		
+	# Store the tagset id
+	id = tagset['id']
+	
+	# update the tagset
+	tagset = Nowa::TagSet.update(id, "Sender Type")
+	
+	# Get a tagset
+	tagset = Nowa::TagSet.get(id)
+	
+	# Remove a tagset
+	Nowa::TagSet.delete(id)
 
 
 ## More Information
@@ -127,4 +211,4 @@ See http://ingeniapi.com/reference for more details of the API.
 
 ## License
 
-Copyright (c) 2013 Retechnica
+&#169; 2013 Retechnica

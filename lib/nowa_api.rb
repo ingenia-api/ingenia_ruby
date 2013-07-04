@@ -1,7 +1,11 @@
 
 require 'restclient'
 require 'json'
+
 require 'nowa_api/remote'
+require 'nowa_api/item'
+require 'nowa_api/tag'
+require 'nowa_api/tag_set'
 
 module Nowa
   module Api
@@ -36,6 +40,11 @@ module Nowa
       end
     end
 
+    def similar_to(item_id, limit = 10)
+      debug { "similar_to" }
+      verify_response { Remote.get("/similar_to/#{item_id}", :api_key => @api_key, :limit => limit ) }
+    end
+
     def trained_tags
       debug { "trained_tags" }
       verify_response { Remote.get('/learnt_tags', :api_key => @api_key) }
@@ -51,8 +60,6 @@ module Nowa
       debug { "debug is on" }
     end
 
-    private
-
     def verify_response
 
       output = yield
@@ -61,6 +68,8 @@ module Nowa
 
       raise CallFailed.new( output )
     end
+
+    private
 
     def debug
       puts "Nowa::Api.debug: #{yield}" if @debug

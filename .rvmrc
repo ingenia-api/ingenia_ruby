@@ -1,1 +1,1 @@
-rvm ruby-1.9.2-p290@nowa-api-gem
+rvm ruby-2.0@nowa-api-gem --create
