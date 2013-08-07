@@ -1,4 +1,3 @@
-
 # Ingenia Ruby gem
 A Gem to wrap the Ingenia API
 
@@ -40,8 +39,8 @@ Nowa::Api.train "I enjoy icecream", [ 'food', 'icecream', 'positive' ]
             "tags":
               {
                 "food":105074, 
-                "icecream"=>105075, 
-                "positve"=>105076
+                "icecream":105075, 
+                "positve":105076
               }
           }
       }, 
