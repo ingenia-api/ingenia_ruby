@@ -30,10 +30,11 @@ module Nowa
     def train(text, tags = {})
       debug { "train" }
       if tags.is_a? Array
-        verify_response { Remote.post('/train', :api_key => @api_key, :text => text, :tags => tags.to_json) }
+
+        verify_response { Remote.post('/items', :api_key => @api_key, :json => { :text => text, :tags => tags }.to_json) }
 
       elsif tags.is_a? Hash
-        verify_response { Remote.post('/train', :api_key => @api_key, :text => text, :tag_sets => tags.to_json) }
+        verify_response { Remote.post('/items', :api_key => @api_key, :json => { :text => text, :tag_sets => tags }.to_json) }
 
       else
         raise "Nowa::Api.train(text, tags) must be called with tags argument as either an Array or a Hash"

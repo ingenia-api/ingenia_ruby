@@ -15,8 +15,8 @@ end
 
 def main
   # set this only once, module will remember it always
-  Nowa::Api.api_key  = 'muzSoTnR7MX1yT66Nsd6'
-  Nowa::Api.endpoint = 'localhost:9292'
+  Nowa::Api.api_key  = 'YOUR_CODE'
+  Nowa::Api.endpoint = 'api.ingeniapi.com'
   Nowa::Api.debug    = true
 
   # Classify some text
