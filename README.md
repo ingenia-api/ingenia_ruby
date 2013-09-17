@@ -147,7 +147,7 @@ Nowa::Item.create("How long do elephants remember?")
 To create an item with tags, you must first have created the tags and have their ids, then pass them as an array.
 
 ```ruby
-Nowa::Item.create("How long to elephants remember?", [32, 51, 6])
+Nowa::Item.create("How long do elephants remember?", [32, 51, 6])
 ```
 
 ### Item CRUD
