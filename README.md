@@ -143,12 +143,28 @@ When you create one Ingenia will return a unique id that lets you keep track of 
 Nowa::Item.create("How long do elephants remember?")
 ```
 
-### Create an Item with Tags
-To create an item with tags, you must first have created the tags and have their ids, then pass them as an array.
+### Create an Item with Tags (training)
+This creats the tags if they do not already exist
+
+```ruby
+Nowa::Item.create("How long do elephants remember?", ["animals", "memory"])
+```
+
+### Create an Item with Tags in multiple TagSets (training)
+This creates both the tag set and tags if they dont already exist.
+
+```ruby
+Nowa::Item.create("How long do elephants remember?", :post_type => ["question"], :subject => ["animals", "memory"])
+```
+
+
+### Create an Item with Tags by id
+To create an item with tags by id, you must first have created the tags and have their ids, then pass them as an array.
 
 ```ruby
 Nowa::Item.create("How long do elephants remember?", [32, 51, 6])
 ```
+
 
 ### Item CRUD
 	item = Nowa::Item.create("How do you make cheese?")
