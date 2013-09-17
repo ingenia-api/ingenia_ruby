@@ -23,7 +23,7 @@ describe Nowa::Api do
     it 'calls remote url properly with array tags' do
 
       Nowa::Api::Remote.should_receive( :post ).
-        with( '/train', :text => 'some text', :tags => %w{ some tags }.to_json, :api_key => '1234' ).
+        with( '/items', :json => { :text => 'some text', :tags => %w{ some tags } }.to_json, :api_key => '1234' ).
         and_return( empty_api_response )
 
       Nowa::Api.train 'some text', %w{ some tags }
@@ -37,13 +37,12 @@ describe Nowa::Api do
       }
 
       test_payload = {
-        :text => 'some text',
-        :tag_sets => tags.to_json,
+        :json => { :text => 'some text', :tag_sets => tags }.to_json,
         :api_key => '1234'
       }
 
       Nowa::Api::Remote.should_receive( :post ).
-        with( '/train', test_payload ).
+        with( '/items', test_payload ).
         and_return( empty_api_response )
 
       Nowa::Api.train 'some text', tags
