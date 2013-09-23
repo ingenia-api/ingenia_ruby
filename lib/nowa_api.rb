@@ -62,9 +62,8 @@ module Nowa
     end
 
     def verify_response
-
       output = yield
-
+      
       return output['data'] if output['status'] == 'okay'
 
       raise CallFailed.new( output )

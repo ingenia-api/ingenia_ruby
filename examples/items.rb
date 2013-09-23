@@ -10,7 +10,6 @@ require 'nowa_api'
 #
 # Set API key to the test user for this gem
 Nowa::Api.api_key = "YOUR_KEY"
-Nowa::Api::Remote.endpoint = 'api.ingeniapi.com'
 
 # Get a list of all your items
 items = Nowa::Item.all(:full_text => true)

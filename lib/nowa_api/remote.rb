@@ -11,6 +11,8 @@ module Api
     extend self
 
     def get(path, opts = {})
+      check_params opts
+
       handle_request do
         uri = build_uri(path, opts)
 
@@ -21,6 +23,8 @@ module Api
     end
 
     def post(path, opts = {})
+      check_params opts
+
       handle_request do
         uri = build_uri(path, opts)
         json = RestClient.post uri.to_s, opts
@@ -30,6 +34,8 @@ module Api
     end
 
     def put(path, opts = {})
+      check_params opts
+
       handle_request do
         uri = build_uri(path, opts)
         json = RestClient.put uri.to_s, opts
@@ -38,6 +44,8 @@ module Api
     end
 
     def delete(path, opts = {})
+      check_params opts
+
       handle_request do
         uri = build_uri(path, opts)
         json = RestClient.delete uri.to_s, opts
@@ -62,6 +70,10 @@ module Api
     end 
 
     private
+
+    def check_params param_hash
+      raise "missing API key" if (not param_hash.has_key?(:api_key)) || param_hash[:api_key].nil? || param_hash[:api_key].length == 0
+    end
 
     def handle_request
       begin
