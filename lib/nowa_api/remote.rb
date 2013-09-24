@@ -44,8 +44,6 @@ module Api
     end
 
     def delete(path, opts = {})
-      check_params opts
-
       handle_request do
         uri = build_uri(path, opts)
         json = RestClient.delete uri.to_s, opts
