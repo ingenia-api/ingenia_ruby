@@ -74,23 +74,31 @@ module Api
     end
 
     def handle_request
-      begin
+      loop do
 
-        yield
-      
-      rescue RestClient::BadRequest => e
-        if e.response.nil?
-          { 'status' => 'error', 'message' => e.to_s }
-        else
-          JSON.parse e.response
+        begin
+          return yield
+          break
+
+        rescue RestClient::RequestFailed => e
+          unless e.response.code == 429 # throttling
+            return { 'status' => 'error', 'message' => e.to_s }
+          end
+
+        rescue RestClient::BadRequest => e
+          if e.response.nil?
+            return { 'status' => 'error', 'message' => e.to_s }
+          else
+            return JSON.parse e.response
+          end
+
+        rescue RestClient::UnprocessableEntity => e
+          return JSON.parse e.response
+
+        rescue JSON::ParserError => e
+          return { 'status' => 'error', 'message' => e.to_s }
+
         end
-
-      rescue RestClient::UnprocessableEntity => e
-        JSON.parse e.response
-
-      rescue JSON::ParserError => e
-        { 'status' => 'error', 'message' => e.to_s }
-
       end
     end
 
