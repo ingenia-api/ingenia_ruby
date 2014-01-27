@@ -8,6 +8,7 @@ require 'nowa_api/remote'
 require 'nowa_api/item'
 require 'nowa_api/tag'
 require 'nowa_api/tag_set'
+require 'nowa_api/bundle'
 
 module Nowa
   module Api
