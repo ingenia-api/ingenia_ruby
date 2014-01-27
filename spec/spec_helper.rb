@@ -2,6 +2,10 @@
 require 'nowa_api'
 require 'webmock/rspec'
 
+Rspec.configure do |conf|
+  conf.color = true
+end
+
 def stub_json_get(path, fixture, opts = {})
 
   if fixture
