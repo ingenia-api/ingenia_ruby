@@ -2,7 +2,7 @@
 require 'nowa_api'
 require 'webmock/rspec'
 
-Rspec.configure do |conf|
+RSpec.configure do |conf|
   conf.color = true
 end
 

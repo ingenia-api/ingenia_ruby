@@ -3,51 +3,73 @@ class Nowa::Item
 
   PATH = '/items'
 
+  # These are known request params, all other params will go inside the json object
+  ITEM_KNOWN_PARAMS = %i{ classify full_text file update_existing offset limit }
+
   # Get a single item by id
-  def self.get id
+  def self.get( id, params = {} )
+    initialize_params params
+
     Nowa::Api.verify_response do
-      Remote.get "#{PATH}/#{id}", :api_key => Nowa::Api.api_key
+      Remote.get( "#{PATH}/#{id}", @params )
     end
   end
 
+  ##
   # Create a new item
-  def self.create text, tag_ids = nil
-    request_json = { :text => text }
-    request_json[:tag_ids] = tag_ids if tag_ids
+  # 
+  # @param full_text - (optional, defaults to false) set to true if you want the full text of the item returned  
+  # 
+  #
+  def self.create( params = {} )
+    initialize_params params    
 
     Nowa::Api.verify_response do
-      Remote.post(PATH, :json => request_json.to_json, :api_key => Nowa::Api.api_key )
+      Remote.post( PATH, @params )
     end
   end
 
+  #
   # Update an existing item
-  def self.update id, text, tag_ids = nil
-    request_json = { :text => text }
-    request_json[:tag_ids] = tag_ids if tag_ids
+  #
+  def self.update( id, params = {} )
+    initialize_params params
+
     Nowa::Api.verify_response do
-      Remote.put("#{PATH}/#{id}", :json =>  request_json.to_json, :api_key => Nowa::Api.api_key )
+      Remote.put("#{PATH}/#{id}", @params )
     end
   end
 
+  #
   # Index your items
-  def self.all options = {}
-    # Defaults
-    offset    = 0
-    limit     = 50
-    full_text = false
-
-    offset    = options[:offset]    if options[:offset]
-    limit     = options[:limit]     if options[:limit]
-    full_text = options[:full_text] if options[:full_text]
-
+  #
+  def self.all params = {}
+    initialize_params params
+    
     Nowa::Api.verify_response do
-      Remote.get(PATH, :offset => offset, :limit => limit, :api_key => Nowa::Api.api_key, :full_text => full_text )
+      Remote.get( PATH, @params )
     end
   end
 
+  #
+  # Destroy an item
+  #
   def self.destroy id
     Nowa::Api.verify_response do
       Remote.delete("#{PATH}/#{id}", :params => { :api_key => Nowa::Api.api_key} )
     end
   end
+
+
+  private
+    def self.initialize_params( params = {} )
+      # break params down into for json object and for request
+      request_params = params.select{ |k,v| ITEM_KNOWN_PARAMS.include?(k) }
+
+      json_params = params.select{ |k,v| not ITEM_KNOWN_PARAMS.include?(k) }
+
+      @params = { :api_key => Nowa::Api.api_key }
+      @params.merge!( { :json => json_params.to_json } ) unless json_params.empty? 
+      @params.merge! request_params
+    end
 end

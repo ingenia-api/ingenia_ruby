@@ -15,7 +15,7 @@ describe Nowa::TagSet do
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
-      Nowa::TagSet.create(name)
+      Nowa::TagSet.create(:name => name)
     end
   end
 
@@ -31,7 +31,7 @@ describe Nowa::TagSet do
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
-      Nowa::TagSet.update(1, name)
+      Nowa::TagSet.update(1, :name => name)
     end
   end
 
@@ -57,7 +57,7 @@ describe Nowa::TagSet do
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
-      Nowa::TagSet.all
+      Nowa::TagSet.all :offset => 0, :limit => 50
     end
   end
 

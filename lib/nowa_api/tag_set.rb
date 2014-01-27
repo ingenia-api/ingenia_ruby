@@ -2,6 +2,7 @@ class Nowa::TagSet
   include Nowa::Api
 
   PATH = '/tag_sets'
+  TAG_SET_KNOWN_PARAMS = %i{ offset limit } 
 
   # Get a single tag_set by id
   def self.get id
@@ -11,34 +12,29 @@ class Nowa::TagSet
   end
 
   # Create a new tag_set
-  def self.create name
-    request_json = { :name => name }
+  def self.create params = {}
+    initialize_params params
 
     Nowa::Api.verify_response do
-      Remote.post(PATH, :json => request_json.to_json, :api_key => Nowa::Api.api_key )
+      Remote.post(PATH, @params )
     end
   end
 
   # Update an existing tag_set
-  def self.update id, name
-    request_json = { :name => name }
-    
+  def self.update id, params = {}
+    initialize_params params
+
     Nowa::Api.verify_response do
-      Remote.put("#{PATH}/#{id}", :json =>  request_json.to_json, :api_key => Nowa::Api.api_key )
+      Remote.put("#{PATH}/#{id}", @params )
     end
   end
 
   # Index your tag_sets
-  def self.all options = {}
-    # Defaults
-    offset    = 0
-    limit     = 50
+  def self.all params = {}
+    initialize_params params
 
-    offset    = options[:offset]    if options[:offset]
-    limit     = options[:limit]     if options[:limit]
-    
     Nowa::Api.verify_response do
-      Remote.get(PATH, :offset => offset, :limit => limit, :api_key => Nowa::Api.api_key )
+      Remote.get(PATH, @params )
     end
   end
 
@@ -47,4 +43,17 @@ class Nowa::TagSet
       Remote.delete("#{PATH}/#{id}", :params => { :api_key => Nowa::Api.api_key} )
     end
   end
+
+
+  private
+    def self.initialize_params( params = {} )
+      # break params down into those for json object and those for request
+      request_params = params.select{ |k,v| TAG_SET_KNOWN_PARAMS.include?(k) }
+      json_params = params.select{ |k,v| not TAG_SET_KNOWN_PARAMS.include?(k) }
+
+
+      @params = { :api_key => Nowa::Api.api_key }
+      @params.merge!( { :json => json_params.to_json } ) unless json_params.empty? 
+      @params.merge! request_params
+    end
 end

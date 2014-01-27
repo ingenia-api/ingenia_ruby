@@ -15,7 +15,7 @@ describe Nowa::Item do
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
-      Nowa::Item.create(text)
+      Nowa::Item.create(:text => text)
     end
   end
 
@@ -31,7 +31,7 @@ describe Nowa::Item do
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
-      Nowa::Item.update(1, text)
+      Nowa::Item.update(1, :text => text)
     end
   end
 
@@ -51,7 +51,7 @@ describe Nowa::Item do
   describe '#all' do
     it 'calls get for non full text' do
       expected_path = '/items'
-      expected_request = { :offset => 0, :limit => 10, :api_key=>"1234", :full_text=>false }
+      expected_request = { :offset => 0, :limit => 10, :api_key=>"1234" }
 
       Nowa::Api::Remote.should_receive( :get ).
         with( expected_path, expected_request).

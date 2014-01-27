@@ -6,6 +6,8 @@ module Api
     ENDPOINT = 'api.ingeniapi.com'
     API_VERSION = '1.0'
 
+    MAX_ATTEMPTS = 3
+
     attr_reader :port
 
     extend self
@@ -15,21 +17,17 @@ module Api
 
       handle_request do
         uri = build_uri(path, opts)
-
-        json = RestClient.get uri.to_s, :params => opts
-        
-        JSON.parse json
+        JSON.parse( RestClient.get uri.to_s, :params => opts )
       end
     end
+
 
     def post(path, opts = {})
       check_params opts
 
       handle_request do
         uri = build_uri(path, opts)
-        json = RestClient.post uri.to_s, opts
-
-        JSON.parse json
+        JSON.parse( RestClient.post uri.to_s, opts )
       end
     end
 
@@ -38,16 +36,14 @@ module Api
 
       handle_request do
         uri = build_uri(path, opts)
-        json = RestClient.put uri.to_s, opts
-        JSON.parse json
+        JSON.parse( RestClient.put uri.to_s, opts )
       end
     end
 
     def delete(path, opts = {})
       handle_request do
         uri = build_uri(path, opts)
-        json = RestClient.delete uri.to_s, opts
-        JSON.parse json
+        JSON.parse( RestClient.delete uri.to_s, opts )
       end
     end
 
@@ -64,54 +60,51 @@ module Api
 
     def endpoint
       @endpoint || ENDPOINT
-
     end 
+
 
     private
 
-    def check_params param_hash
-      raise "missing API key" if (not param_hash.has_key?(:api_key)) || param_hash[:api_key].nil? || param_hash[:api_key].length == 0
-    end
+      def check_params param_hash
+        raise "missing API key" if (not param_hash.has_key?(:api_key)) || param_hash[:api_key].nil? || param_hash[:api_key].length == 0
+      end
 
-    def handle_request
-      loop do
+      def handle_request
+        loop do # until successful
+          begin
+            return yield
+            
+          rescue RestClient::RequestFailed => e
+            unless e.response.code == 429 # throttling
+              return { 'status' => 'error', 'message' => e.to_s }
+            end
 
-        begin
-          return yield
-          break
+          rescue RestClient::BadRequest => e
+            if e.response.nil?
+              return { 'status' => 'error', 'message' => e.to_s }
+            else
+              return JSON.parse e.response
+            end
 
-        rescue RestClient::RequestFailed => e
-          unless e.response.code == 429 # throttling
-            return { 'status' => 'error', 'message' => e.to_s }
-          end
-
-        rescue RestClient::BadRequest => e
-          if e.response.nil?
-            return { 'status' => 'error', 'message' => e.to_s }
-          else
+          rescue RestClient::UnprocessableEntity => e
             return JSON.parse e.response
+
+          rescue JSON::ParserError => e
+            return { 'status' => 'error', 'message' => e.to_s }
+
           end
-
-        rescue RestClient::UnprocessableEntity => e
-          return JSON.parse e.response
-
-        rescue JSON::ParserError => e
-          return { 'status' => 'error', 'message' => e.to_s }
 
         end
       end
+
+      def build_uri(path, opts = {})
+        opts[:api_version] ||= API_VERSION
+        
+        url  = URI::HTTP.build( :host => endpoint, :path => path )
+        url.port = port if port
+
+        url
+      end
     end
-
-    def build_uri(path, opts = {})
-      opts[:api_version] ||= API_VERSION
-      
-      url  = URI::HTTP.build( :host => endpoint, :path => path )
-      url.port = port if port
-
-      url
-    end
-
   end
-
-end
 end

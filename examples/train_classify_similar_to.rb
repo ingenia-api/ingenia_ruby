@@ -14,8 +14,7 @@ def demo(name)
 end
 
 def main
-  # set this only once, module will remember it always
-  Nowa::Api.api_key  = 'YOUR_API_KEY'
+  Nowa::Api.api_key = "API_KEY"
   
   # Classify some text
   demo "classify" do

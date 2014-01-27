@@ -2,6 +2,8 @@
 require 'restclient'
 require 'json'
 
+require 'ostruct'
+
 require 'nowa_api/remote'
 require 'nowa_api/item'
 require 'nowa_api/tag'
@@ -72,8 +74,6 @@ module Nowa
     def verify_response
       output = yield
       
-      puts output
-
       return output['data'] if output['status'] == 'okay'
 
       raise CallFailed.new( output )

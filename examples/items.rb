@@ -1,44 +1,114 @@
-$: << File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
+require './helper'
+
+##
+# Run a full set of API calls related to items
+##
+
+
+# Set API key to the test user for this gem
 require 'nowa_api'
 
+Nowa::Api.api_key = "API_KEY"
+
 ##
-# Run a full set of CRUD operations on items
+# Create/Train
+#
+# - Creating items with (optional) tags is the same as training.
+# - All new items belong to your first bundle unless specified with the bundle_id param
+# - If the same text is sent twice, the old record is overwritten unless the 'update_existing' param is set to false
+#
+example "Create/train" do
+  big_text = "I like cake " * 1000
+  new_item = Nowa::Item.create { :text => big_text, :tags => [ 'food', 'cake', 'obsession'] }
+  @new_item_id = new_item['id']
+
+  puts "new item: "
+  puts "#{new_item}".green
+
+  # Tidy up
+  Nowa::Item.destroy(@new_item_id)
+
+  # request full text response
+  big_text = "I like cake " * 1001
+  new_item = Nowa::Item.create :text => big_text, :tags => [ 'food', 'cake', 'obsession'], :full_text => true
+  @new_item_id = new_item['id']
+
+  puts "new item with full text: "
+  puts "#{new_item}".green
+
+
+  # create without updating existing
+  response = Nowa::Item.create :text => new_item['text'], :tags => [ 'not', 'changed' ], :update_existing => false
+  puts 'unchaged item'
+  puts "#{response}".green
+end
+
+
 ##
-
+# Index normal
 #
-# Setup
+example "Index normal" do
+  items = Nowa::Item.all
+
+  puts "got #{items.length} items"
+  puts "\n First Item: "
+  puts "#{items.first}".green
+
+  @test_item_id = items.first['id']
+end
+
+##
+# Index full text
 #
-# Set API key to the test user for this gem
-Nowa::Api.api_key = "YOUR_KEY"
+example "Index full text" do
+  items = Nowa::Item.all(:full_text => "true")
 
-# Get a list of all your items
-items = Nowa::Item.all(:full_text => true)
-puts "got #{items.length} items"
+  puts "got #{items.length} items"
+  puts "\n First Item: "
+  puts "#{items.first}".green
 
-# Get the first item
-test_item = items.first
+  @test_item_id = items.first['id']
+end
 
-puts "\n\n\n First Item: "
-puts test_item
+##
+# Show
+#
+example "Show" do
+  test_item = Nowa::Item.get(@new_item_id, :full_text => false )
+  puts "Quick view: "
+  puts "#{test_item}".green
 
-test_item_id = test_item['id']
+  # Get it with full text
+  @test_item = Nowa::Item.get(@new_item_id, :full_text => true )
+  puts "\n Full text view: "
+  puts "#{@test_item}".green
+end
 
 
-# Update its text
-Nowa::Item.update(test_item_id, "this is some test update text for testing the API")
+##
+# Update
+# 
+example "Update" do
+  response = Nowa::Item.update(@test_item_id, :text => "this is some test update text for testing the API")
+
+  puts "updated item:"
+  puts "#{response}".green
+
+  # Update its tags
+  response = Nowa::Item.update(@test_item_id, :text => "this is some test update text for testing the API", :tags => ['api', 'testing'])
+  puts "#{response}".green
+end
 
 
-# Get the updated item, including it's text
-test_item = Nowa::Item.get(test_item_id)
-puts "\n\n\n updated item:"
-puts test_item
+##
+# Destroy
+#
+example "Destroy" do
+  # Remove this new item
+  response = Nowa::Item.destroy(@test_item_id)
+  puts "#{response}".green
+end
 
 
-# Create a new item
-new_test_item = Nowa::Item.create(test_item['text'] + " new with some changes")
-puts "\n\n\n created a new item:"
-puts new_test_item
 
-# Remove this new item
-puts "\n\n\ removed the new item:"
-puts Nowa::Item.destroy(new_test_item['id'])
+
