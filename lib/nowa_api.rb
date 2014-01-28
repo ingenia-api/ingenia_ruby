@@ -90,8 +90,6 @@ module Nowa
 
     def verify_response
       output = yield
-      
-      puts output
 
       return output['data'] if output['status'] == 'okay'
 
