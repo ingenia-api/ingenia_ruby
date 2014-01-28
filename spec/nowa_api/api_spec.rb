@@ -60,6 +60,18 @@ describe Nowa::Api do
     end
   end
 
+  describe '::summarize' do
+    it 'calls remote url properly' do
+
+      Nowa::Api::Remote.should_receive( :post ).
+        with( "/summarise", :api_key => '1234', :text => "this is some long-winded text" ).
+        and_return( empty_api_response )
+
+      Nowa::Api.summarize :text =>  "this is some long-winded text"
+    end
+  end
+
+
   describe '::endpoint' do
 
     it 'is default' do
