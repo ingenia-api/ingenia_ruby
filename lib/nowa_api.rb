@@ -23,28 +23,44 @@ module Nowa
       end
     end
 
+    # Status of your app
+    def status
+      debug { "status" }
+      verify_response { Remote.get('/status', :api_key => api_key ) }
+    end
+
+    # Classify some text
     def classify(text)
       debug { "classify" }
       verify_response { Remote.post('/classify', :api_key => api_key, :text => text) }
     end
 
+    # Deprecated train action, now creates an item
     def train(text, tags = {})
       debug { "train" }
       if tags.is_a? Array
-
-        verify_response { Remote.post('/items', :api_key => api_key, :json => { :text => text, :tags => tags }.to_json) }
+        Item.create(:text => text, :tags => tags)
 
       elsif tags.is_a? Hash
-        verify_response { Remote.post('/items', :api_key => api_key, :json => { :text => text, :tag_sets => tags }.to_json) }
+        Item.create(:text => text, :tag_sets => tags)
 
       else
         raise "Nowa::Api.train(text, tags) must be called with tags argument as either an Array or a Hash"
       end
     end
 
+    # Find similar items
     def similar_to(item_id, limit = 10)
       debug { "similar_to" }
       verify_response { Remote.get("/similar_to/#{item_id}", :api_key => api_key, :limit => limit ) }
+    end
+
+    # Summarize some text
+    def summarize(params = {})
+      debug { "summarize" }
+      initialize_params params    
+
+      verify_response { Remote.post("/summarise", @params ) }
     end
 
     def trained_tags
@@ -75,6 +91,8 @@ module Nowa
     def verify_response
       output = yield
       
+      puts output
+
       return output['data'] if output['status'] == 'okay'
 
       raise CallFailed.new( output )
@@ -82,9 +100,17 @@ module Nowa
 
     private
 
-    def debug
-      puts "Nowa::Api.debug: #{yield}" if @debug
-    end
+      def initialize_params( params = {} )
+        # break params down into for json object and for request
+        request_params = params
+
+        @params = { :api_key => Nowa::Api.api_key }
+        @params.merge! request_params
+      end
+
+      def debug
+        puts "Nowa::Api.debug: #{yield}" if @debug
+      end
 
   end
 end

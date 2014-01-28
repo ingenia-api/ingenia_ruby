@@ -19,7 +19,7 @@ Nowa::Api.api_key = "API_KEY"
 #
 example "Create/train" do
   big_text = "I like cake " * 1000
-  new_item = Nowa::Item.create { :text => big_text, :tags => [ 'food', 'cake', 'obsession'] }
+  new_item = Nowa::Item.create :text => big_text, :tags => [ 'food', 'cake', 'obsession']
   @new_item_id = new_item['id']
 
   puts "new item: "
@@ -108,7 +108,3 @@ example "Destroy" do
   response = Nowa::Item.destroy(@test_item_id)
   puts "#{response}".green
 end
-
-
-
-

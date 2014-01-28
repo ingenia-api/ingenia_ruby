@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
   gem.name          = "nowa_api"
   gem.require_paths = ["lib"]
   
-  gem.version       = "0.0.6"
+  gem.version       = "0.0.7"
 
   gem.add_dependency('rest-client')
   gem.add_dependency('json')

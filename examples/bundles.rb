@@ -10,8 +10,7 @@ require './helper'
 #
 # Set API key to the test user for this gem
 require 'nowa_api'
-Nowa::Api.api_key = "27mbSfqyTWhkx3ckDjg2"
-Nowa::Api.endpoint = "localhost:9292"
+Nowa::Api.api_key = "API_KEY"
 
 ##
 # Create
