@@ -15,6 +15,6 @@ Gem::Specification.new do |gem|
   
   gem.version       = "0.0.6"
 
-  gem.add_dependency('rest-client')
-  gem.add_dependency('json')
+  gem.add_dependency('rest-client', '~> 0')
+  gem.add_dependency('json', '~> 0')
 end
