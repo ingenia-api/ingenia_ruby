@@ -9,7 +9,7 @@ require './helper'
 require 'nowa_api'
 
 Nowa::Api.api_key = "API_KEY"
-
+Nowa::Api.version = 2.0
 ##
 # Create/Train
 #

@@ -15,6 +15,8 @@ module Nowa
 
     extend self
     
+    API_KNOWN_PARAMS = %w( limit text )
+
     class CallFailed < StandardError
       def initialize(output)
         prefix = output['status']
@@ -50,9 +52,18 @@ module Nowa
     end
 
     # Find similar items
-    def similar_to(item_id, limit = 10)
+    def similar_to( params = {} )
       debug { "similar_to" }
-      verify_response { Remote.get("/similar_to/#{item_id}", :api_key => api_key, :limit => limit ) }
+
+      initialize_params params
+
+      if params.has_key? :item_id
+        verify_response { Remote.get("/similar_to/#{ @params[:item_id] }", @params ) }        
+      elsif params.has_key? :text
+        verify_response { Remote.post("/similar_to_text", @params ) }        
+      elsif params.has_key? :tag_ids
+        verify_response { Remote.get("/similar_to_tags", @params ) }        
+      end
     end
 
     # Summarize some text
@@ -73,6 +84,11 @@ module Nowa
       Remote.endpoint = ep
     end
 
+    def version=(v)
+      debug { "version=#{Remote.version}" }
+      Remote.version = v
+    end
+
     def api_key=(k)
       debug { "api_key=#{k}" }
       @api_key = k
@@ -91,19 +107,16 @@ module Nowa
     def verify_response
       output = yield
 
-      return output['data'] if output['status'] == 'okay'
+      return output['data'] unless output['data'].nil?
 
       raise CallFailed.new( output )
     end
 
     private
 
-      def initialize_params( params = {} )
-        # break params down into for json object and for request
-        request_params = params
 
-        @params = { :api_key => Nowa::Api.api_key }
-        @params.merge! request_params
+      def self.initialize_params( params = {} )
+        @params = { :api_key => Nowa::Api.api_key }.merge!(params)
       end
 
       def debug

@@ -4,7 +4,7 @@ module Api
 
   module Remote
     ENDPOINT = 'api.ingeniapi.com'
-    API_VERSION = '1.0'
+    DEFAULT_VERSION = 2.0
 
     MAX_ATTEMPTS = 3
 
@@ -58,8 +58,24 @@ module Api
       @endpoint = str
     end
 
+    def version=(str)
+      # safety checking on version number
+      if str.class == String
+        raise 'Please set version to a float, eg 2.0'
+      end
+      @version = str
+    end
+
     def endpoint
       @endpoint || ENDPOINT
+    end 
+
+    def version_string
+      "v#{version.round}"
+    end
+
+    def version
+      @version || DEFAULT_VERSION
     end 
 
 
@@ -73,6 +89,9 @@ module Api
         loop do # until successful
           begin
             return yield
+
+          rescue RestClient::Conflict => e
+            return JSON.parse e.response
             
           rescue RestClient::RequestFailed => e
             unless e.response.code == 429 # throttling
@@ -90,6 +109,8 @@ module Api
             return JSON.parse e.response
 
           rescue JSON::ParserError => e
+            # puts e.inspect
+
             return { 'status' => 'error', 'message' => e.to_s }
 
           end
@@ -98,8 +119,8 @@ module Api
       end
 
       def build_uri(path, opts = {})
-        opts[:api_version] ||= API_VERSION
-        
+        path = "/#{version_string}" + path unless version.eql?(1.0)
+
         url  = URI::HTTP.build( :host => endpoint, :path => path )
         url.port = port if port
 

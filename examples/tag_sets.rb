@@ -11,6 +11,7 @@ require './helper'
 # Set API key to the test user for this gem
 require 'nowa_api'
 Nowa::Api.api_key = "API_KEY"
+Nowa::Api.version = 2.0
 
 ##
 # Create

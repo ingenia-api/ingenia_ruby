@@ -1,6 +1,7 @@
 $: << File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'nowa_api'
 
+
 #
 # Setup
 #

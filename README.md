@@ -16,6 +16,10 @@ Before any call is made you must first set your ingeniapi API key:
 Nowa::Api.api_key = 'YOUR_KEY'
 ```
 
+Optionally setup the version of the API you wish to use
+```ruby
+Nowa::Api.version = 2.0
+```
 
 
 ## Usage Examples

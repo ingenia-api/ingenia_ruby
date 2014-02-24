@@ -18,10 +18,20 @@ class Nowa::Item
   ##
   # Create a new item
   # 
-  # @param full_text - (optional, defaults to false) set to true if you want the full text of the item returned  
-  # 
   #
   def self.create( params = {} )
+    initialize_params params    
+
+    Nowa::Api.verify_response do
+      Remote.post( PATH, @params )
+    end
+  end
+
+  ##
+  # Find or create a new item by text
+  # 
+  #
+  def self.find_or_create_by_text( params = {} )
     initialize_params params    
 
     Nowa::Api.verify_response do

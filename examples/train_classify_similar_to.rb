@@ -34,7 +34,7 @@ def main
   demo "find items similar to your first item" do
     first_item = Nowa::Item.all.first
 
-    puts Nowa::Api.similar_to(first_item['id'])
+    puts Nowa::Api.similar_to(:id => first_item['id'])
   end
 
 end
