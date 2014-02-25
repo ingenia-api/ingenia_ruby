@@ -1,24 +1,24 @@
 require 'spec_helper' 
 
-describe Nowa::Api do
+describe Ingenia::Api do
 
   let( :empty_api_response ) { { 'status' => 'okay', 'data' => {} } }
 
   before :each do
-    Nowa::Api.api_key = '1234'
-    Nowa::Api.version = nil
+    Ingenia::Api.api_key = '1234'
+    Ingenia::Api.version = nil
   end
 
   describe 'versioning' do
     describe '::version' do
 
       it 'is default' do
-        Nowa::Api::Remote.version.should == 2.0
+        Ingenia::Api::Remote.version.should == 2.0
       end
 
       it 'can be set' do
-        Nowa::Api::version = 1.0
-        Nowa::Api::Remote.version.should == 1.0
+        Ingenia::Api::version = 1.0
+        Ingenia::Api::Remote.version.should == 1.0
       end
     end
 
@@ -27,23 +27,23 @@ describe Nowa::Api do
         stub_request(:post, "api.ingeniapi.com/v2/classify")
           .to_return( :body => '{"status":"okay","api_version":"1.0","data":{}}', :status => 200 )
 
-        Nowa::Api.classify 'some text'
+        Ingenia::Api.classify 'some text'
       end
 
       it 'calls without v2 if set to older version' do
         stub_request(:post, "api.ingeniapi.com/classify")
           .to_return( :body => '{"status":"okay","api_version":"1.0","data":{}}', :status => 200 )
 
-        Nowa::Api.version = 1.0
-        Nowa::Api.classify 'some text'
+        Ingenia::Api.version = 1.0
+        Ingenia::Api.classify 'some text'
       end
 
       it 'calls correctly if set to 2.0' do
         stub_request(:post, "api.ingeniapi.com/v2/classify")
           .to_return( :body => '{"status":"okay","api_version":"1.0","data":{}}', :status => 200 )
 
-        Nowa::Api.version = 2.0
-        Nowa::Api.classify 'some text'
+        Ingenia::Api.version = 2.0
+        Ingenia::Api.classify 'some text'
       end
 
     end
@@ -52,22 +52,22 @@ describe Nowa::Api do
   describe '::classify' do
     it 'calls remote url properly' do
 
-      Nowa::Api::Remote.should_receive( :post ).
+      Ingenia::Api::Remote.should_receive( :post ).
         with( '/classify', :text => 'some text', :api_key => '1234' ).
         and_return( empty_api_response )
 
-      Nowa::Api.classify 'some text'
+      Ingenia::Api.classify 'some text'
     end
   end
 
   describe '::train' do
     it 'calls remote url properly with array tags' do
 
-      Nowa::Api::Remote.should_receive( :post ).
+      Ingenia::Api::Remote.should_receive( :post ).
         with( '/items', :json => { :text => 'some text', :tags => %w{ some tags } }.to_json, :api_key => '1234' ).
         and_return( empty_api_response )
 
-      Nowa::Api.train 'some text', %w{ some tags }
+      Ingenia::Api.train 'some text', %w{ some tags }
     end
 
     it 'calls remote url properly with nested tags' do
@@ -82,33 +82,33 @@ describe Nowa::Api do
         :api_key => '1234'
       }
 
-      Nowa::Api::Remote.should_receive( :post ).
+      Ingenia::Api::Remote.should_receive( :post ).
         with( '/items', test_payload ).
         and_return( empty_api_response )
 
-      Nowa::Api.train 'some text', tags
+      Ingenia::Api.train 'some text', tags
     end
   end
 
   describe '::similar_to' do
     it 'calls remote url properly' do
 
-      Nowa::Api::Remote.should_receive( :get ).
+      Ingenia::Api::Remote.should_receive( :get ).
         with( "/similar_to/1", :api_key => '1234', :item_id => 1 ).
         and_return( empty_api_response )
 
-      Nowa::Api.similar_to :item_id => 1
+      Ingenia::Api.similar_to :item_id => 1
     end
   end
 
   describe '::summarize' do
     it 'calls remote url properly' do
 
-      Nowa::Api::Remote.should_receive( :post ).
+      Ingenia::Api::Remote.should_receive( :post ).
         with( "/summarise", :api_key => '1234', :text => "this is some long-winded text" ).
         and_return( empty_api_response )
 
-      Nowa::Api.summarize :text =>  "this is some long-winded text"
+      Ingenia::Api.summarize :text =>  "this is some long-winded text"
     end
   end
 
@@ -116,18 +116,18 @@ describe Nowa::Api do
   describe '::endpoint' do
 
     it 'is default' do
-      Nowa::Api::Remote.endpoint.should == 'api.ingeniapi.com'
+      Ingenia::Api::Remote.endpoint.should == 'api.ingeniapi.com'
     end
 
     it 'can be set' do
-      Nowa::Api::endpoint = 'hoopla.com'
-      Nowa::Api::Remote.endpoint.should == 'hoopla.com'
+      Ingenia::Api::endpoint = 'hoopla.com'
+      Ingenia::Api::Remote.endpoint.should == 'hoopla.com'
     end
 
     it 'can take port numbers' do
-      Nowa::Api::endpoint = 'hoopla.com:8080'
-      Nowa::Api::Remote.endpoint.should == 'hoopla.com'
-      Nowa::Api::Remote.port.should == 8080
+      Ingenia::Api::endpoint = 'hoopla.com:8080'
+      Ingenia::Api::Remote.endpoint.should == 'hoopla.com'
+      Ingenia::Api::Remote.port.should == 8080
     end
   end
 

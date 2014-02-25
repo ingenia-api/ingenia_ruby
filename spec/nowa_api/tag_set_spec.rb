@@ -1,6 +1,6 @@
 require 'spec_helper' 
 
-describe Nowa::TagSet do
+describe Ingenia::TagSet do
   let( :empty_api_response ) { { 'status' => 'okay', 'data' => {} } }
 
 
@@ -11,11 +11,11 @@ describe Nowa::TagSet do
       expected_path = '/tag_sets'
       expected_request = {:json=>"{\"name\":\"#{name}\"}", :api_key=>"1234"}
 
-      Nowa::Api::Remote.should_receive( :post ).
+      Ingenia::Api::Remote.should_receive( :post ).
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
-      Nowa::TagSet.create(:name => name)
+      Ingenia::TagSet.create(:name => name)
     end
   end
 
@@ -27,11 +27,11 @@ describe Nowa::TagSet do
       expected_path = '/tag_sets/1'
       expected_request = {:json=>"{\"name\":\"#{name}\"}", :api_key=>"1234"}
 
-      Nowa::Api::Remote.should_receive( :put ).
+      Ingenia::Api::Remote.should_receive( :put ).
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
-      Nowa::TagSet.update(1, :name => name)
+      Ingenia::TagSet.update(1, :name => name)
     end
   end
 
@@ -40,11 +40,11 @@ describe Nowa::TagSet do
       expected_path = '/tag_sets/1'
       expected_request = { :api_key=>"1234" }
 
-      Nowa::Api::Remote.should_receive( :get ).
+      Ingenia::Api::Remote.should_receive( :get ).
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
-      Nowa::TagSet.get(1)
+      Ingenia::TagSet.get(1)
     end
   end
 
@@ -53,11 +53,11 @@ describe Nowa::TagSet do
       expected_path = '/tag_sets'
       expected_request = { :offset => 0, :limit => 50, :api_key=>"1234" }
 
-      Nowa::Api::Remote.should_receive( :get ).
+      Ingenia::Api::Remote.should_receive( :get ).
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
-      Nowa::TagSet.all :offset => 0, :limit => 50
+      Ingenia::TagSet.all :offset => 0, :limit => 50
     end
   end
 
@@ -66,11 +66,11 @@ describe Nowa::TagSet do
       expected_path = '/tag_sets/1'
       expected_request = {:params=>{:api_key=>"1234"}} 
 
-      Nowa::Api::Remote.should_receive( :delete ).
+      Ingenia::Api::Remote.should_receive( :delete ).
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
-      Nowa::TagSet.destroy(1)
+      Ingenia::TagSet.destroy(1)
     end
   end
 end

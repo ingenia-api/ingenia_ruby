@@ -1,6 +1,6 @@
 require 'spec_helper' 
 
-describe Nowa::Bundle do
+describe Ingenia::Bundle do
   let( :empty_api_response ) { { 'status' => 'okay', 'data' => {} } }
 
 
@@ -11,11 +11,11 @@ describe Nowa::Bundle do
       expected_path = '/bundles'
       expected_request = {:api_key=>"1234", :json=>"{\"name\":\"this is a test bundle\"}"}
 
-      Nowa::Api::Remote.should_receive( :post ).
+      Ingenia::Api::Remote.should_receive( :post ).
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
-      Nowa::Bundle.create( :name => name )
+      Ingenia::Bundle.create( :name => name )
     end
   end
 
@@ -27,11 +27,11 @@ describe Nowa::Bundle do
       expected_path = '/bundles/1'
       expected_request = { :json=>"{\"name\":\"#{name}\"}", :api_key=>"1234" }
 
-      Nowa::Api::Remote.should_receive( :put ).
+      Ingenia::Api::Remote.should_receive( :put ).
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
-      Nowa::Bundle.update( 1, :name => name )
+      Ingenia::Bundle.update( 1, :name => name )
     end
   end
 
@@ -40,11 +40,11 @@ describe Nowa::Bundle do
       expected_path = '/bundles/1'
       expected_request = { :api_key=>"1234" }
 
-      Nowa::Api::Remote.should_receive( :get ).
+      Ingenia::Api::Remote.should_receive( :get ).
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
-      Nowa::Bundle.get(1)
+      Ingenia::Bundle.get(1)
     end
   end
 
@@ -53,11 +53,11 @@ describe Nowa::Bundle do
       expected_path = '/bundles'
       expected_request = { :offset => 0, :limit => 50, :api_key=>"1234" }
 
-      Nowa::Api::Remote.should_receive( :get ).
+      Ingenia::Api::Remote.should_receive( :get ).
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
-      Nowa::Bundle.all :offset => 0, :limit => 50
+      Ingenia::Bundle.all :offset => 0, :limit => 50
     end
   end
 
@@ -66,11 +66,11 @@ describe Nowa::Bundle do
       expected_path = '/bundles/1'
       expected_request = {:params=>{:api_key=>"1234"}} 
 
-      Nowa::Api::Remote.should_receive( :delete ).
+      Ingenia::Api::Remote.should_receive( :delete ).
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
-      Nowa::Bundle.destroy(1)
+      Ingenia::Bundle.destroy(1)
     end
   end
 end

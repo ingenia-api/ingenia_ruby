@@ -8,8 +8,8 @@ require './helper'
 # Set API key to the test user for this gem
 require 'nowa_api'
 
-Nowa::Api.api_key = "API_KEY"
-Nowa::Api.version = 2.0
+Ingenia::Api.api_key = "API_KEY"
+Ingenia::Api.version = 2.0
 ##
 # Create/Train
 #
@@ -19,18 +19,18 @@ Nowa::Api.version = 2.0
 #
 example "Create/train" do
   big_text = "I like cake " * 1000
-  new_item = Nowa::Item.create :text => big_text, :tags => [ 'food', 'cake', 'obsession']
+  new_item = Ingenia::Item.create :text => big_text, :tags => [ 'food', 'cake', 'obsession']
   @new_item_id = new_item['id']
 
   puts "new item: "
   puts "#{new_item}".green
 
   # Tidy up
-  Nowa::Item.destroy(@new_item_id)
+  Ingenia::Item.destroy(@new_item_id)
 
   # request full text response
   big_text = "I like cake " * 1001
-  new_item = Nowa::Item.create :text => big_text, :tags => [ 'food', 'cake', 'obsession'], :full_text => true
+  new_item = Ingenia::Item.create :text => big_text, :tags => [ 'food', 'cake', 'obsession'], :full_text => true
   @new_item_id = new_item['id']
 
   puts "new item with full text: "
@@ -38,7 +38,7 @@ example "Create/train" do
 
 
   # create without updating existing
-  response = Nowa::Item.create :text => new_item['text'], :tags => [ 'not', 'changed' ], :update_existing => false
+  response = Ingenia::Item.create :text => new_item['text'], :tags => [ 'not', 'changed' ], :update_existing => false
   puts 'unchaged item'
   puts "#{response}".green
 end
@@ -48,7 +48,7 @@ end
 # Index normal
 #
 example "Index normal" do
-  items = Nowa::Item.all
+  items = Ingenia::Item.all
 
   puts "got #{items.length} items"
   puts "\n First Item: "
@@ -61,7 +61,7 @@ end
 # Index full text
 #
 example "Index full text" do
-  items = Nowa::Item.all(:full_text => "true")
+  items = Ingenia::Item.all(:full_text => "true")
 
   puts "got #{items.length} items"
   puts "\n First Item: "
@@ -74,12 +74,12 @@ end
 # Show
 #
 example "Show" do
-  test_item = Nowa::Item.get(@new_item_id, :full_text => false )
+  test_item = Ingenia::Item.get(@new_item_id, :full_text => false )
   puts "Quick view: "
   puts "#{test_item}".green
 
   # Get it with full text
-  @test_item = Nowa::Item.get(@new_item_id, :full_text => true )
+  @test_item = Ingenia::Item.get(@new_item_id, :full_text => true )
   puts "\n Full text view: "
   puts "#{@test_item}".green
 end
@@ -89,13 +89,13 @@ end
 # Update
 # 
 example "Update" do
-  response = Nowa::Item.update(@test_item_id, :text => "this is some test update text for testing the API")
+  response = Ingenia::Item.update(@test_item_id, :text => "this is some test update text for testing the API")
 
   puts "updated item:"
   puts "#{response}".green
 
   # Update its tags
-  response = Nowa::Item.update(@test_item_id, :text => "this is some test update text for testing the API", :tags => ['api', 'testing'])
+  response = Ingenia::Item.update(@test_item_id, :text => "this is some test update text for testing the API", :tags => ['api', 'testing'])
   puts "#{response}".green
 end
 
@@ -105,6 +105,6 @@ end
 #
 example "Destroy" do
   # Remove this new item
-  response = Nowa::Item.destroy(@test_item_id)
+  response = Ingenia::Item.destroy(@test_item_id)
   puts "#{response}".green
 end

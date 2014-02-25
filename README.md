@@ -13,12 +13,12 @@ gem install nowa_api
 Before any call is made you must first set your ingeniapi API key:
 
 ```ruby
-Nowa::Api.api_key = 'YOUR_KEY'
+Ingenia::Api.api_key = 'YOUR_KEY'
 ```
 
 Optionally setup the version of the API you wish to use
 ```ruby
-Nowa::Api.version = 2.0
+Ingenia::Api.version = 2.0
 ```
 
 
@@ -28,7 +28,7 @@ Nowa::Api.version = 2.0
 To make an API call to show ingenia that some text is known to be associated with some tags. This action also creates an Item.
 
 ```ruby
-Nowa::Api.train "I enjoy icecream", [ 'food', 'icecream', 'positive' ]
+Ingenia::Api.train "I enjoy icecream", [ 'food', 'icecream', 'positive' ]
 ```
 
 **response:**
@@ -57,7 +57,7 @@ Nowa::Api.train "I enjoy icecream", [ 'food', 'icecream', 'positive' ]
 Train ingenia that a text item is associated with tags in different groups, or Tag Sets.
 
 ```ruby
-Nowa::Api.train "Is icecream safe?", { 'Subject' => [ 'food', 'safety' ], 'Category' => [ 'question' ] }
+Ingenia::Api.train "Is icecream safe?", { 'Subject' => [ 'food', 'safety' ], 'Category' => [ 'question' ] }
 ```
 
 **response:**
@@ -95,7 +95,7 @@ Ask Ingenia to identify which tags are most relevant to some text. This call doe
 Classification will only work once you have done some training and Ingenia has an understanding of your Tags.
 
 ```ruby
-Nowa::Api.classify "what is the difference between ruby on rails and rake?"
+Ingenia::Api.classify "what is the difference between ruby on rails and rake?"
 ```
 
 **response:** 
@@ -125,8 +125,8 @@ notes:
 Find Items that are similar to a given Item, by both tags and words.
 
 ```ruby
-item = Nowa::Item.create("What is similar to me?")
-Nowa::Api.similar_to item['id']
+item = Ingenia::Item.create("What is similar to me?")
+Ingenia::Api.similar_to item['id']
 ```
 
 **response:** 
@@ -144,21 +144,21 @@ When you create one Ingenia will return a unique id that lets you keep track of 
 
 ### Create a plain Item
 ```ruby
-Nowa::Item.create("How long do elephants remember?")
+Ingenia::Item.create("How long do elephants remember?")
 ```
 
 ### Create an Item with Tags (training)
 This creats the tags if they do not already exist
 
 ```ruby
-Nowa::Item.create("How long do elephants remember?", ["animals", "memory"])
+Ingenia::Item.create("How long do elephants remember?", ["animals", "memory"])
 ```
 
 ### Create an Item with Tags in multiple TagSets (training)
 This creates both the tag set and tags if they dont already exist.
 
 ```ruby
-Nowa::Item.create("How long do elephants remember?", :post_type => ["question"], :subject => ["animals", "memory"])
+Ingenia::Item.create("How long do elephants remember?", :post_type => ["question"], :subject => ["animals", "memory"])
 ```
 
 
@@ -166,24 +166,24 @@ Nowa::Item.create("How long do elephants remember?", :post_type => ["question"],
 To create an item with tags by id, you must first have created the tags and have their ids, then pass them as an array.
 
 ```ruby
-Nowa::Item.create("How long do elephants remember?", [32, 51, 6])
+Ingenia::Item.create("How long do elephants remember?", [32, 51, 6])
 ```
 
 
 ### Item CRUD
-	item = Nowa::Item.create("How do you make cheese?")
+	item = Ingenia::Item.create("How do you make cheese?")
 	
 	# Store the item id
 	id = item['id']
 	
 	# update the item
-	item = Nowa::Item.update(id, "How do you eat cheese?")
+	item = Ingenia::Item.update(id, "How do you eat cheese?")
 	
 	# Get an item, together with it's most recent classifications
-	item = Nowa::Item.get(id)
+	item = Ingenia::Item.get(id)
 	
 	# Remove an item
-	Nowa::Item.delete(id)
+	Ingenia::Item.delete(id)
 	
 
 ## Tags
@@ -191,23 +191,23 @@ Tags, or categories, are meaningful words or expressions that you want to associ
 
 ### Create a tag
 ```ruby
-Nowa::Tag.create("Science", 10)
+Ingenia::Tag.create("Science", 10)
 ```
 
 ### Tag CRUD
-	tag = Nowa::Tag.create("Science", 10)
+	tag = Ingenia::Tag.create("Science", 10)
 		
 	# Store the tag id
 	id = tag['id']
 	
 	# update the tag
-	tag = Nowa::Tag.update(id, "Scientific Theory")
+	tag = Ingenia::Tag.update(id, "Scientific Theory")
 	
 	# Get a tag
-	tag = Nowa::Tag.get(id)
+	tag = Ingenia::Tag.get(id)
 	
 	# Remove a tag
-	Nowa::Tag.delete(id)
+	Ingenia::Tag.delete(id)
 	
 
 ## Tag Sets
@@ -220,23 +220,23 @@ Classification calls will show tags grouped by their tagsets.
 
 ### Create a TagSet
 ```ruby
-Nowa::TagSet.create("Topic")
+Ingenia::TagSet.create("Topic")
 ```
 
 ### TagSet CRUD
-	tagset = Nowa::TagSet.create("Urgency")
+	tagset = Ingenia::TagSet.create("Urgency")
 		
 	# Store the tagset id
 	id = tagset['id']
 	
 	# update the tagset
-	tagset = Nowa::TagSet.update(id, "Sender Type")
+	tagset = Ingenia::TagSet.update(id, "Sender Type")
 	
 	# Get a tagset
-	tagset = Nowa::TagSet.get(id)
+	tagset = Ingenia::TagSet.get(id)
 	
 	# Remove a tagset
-	Nowa::TagSet.delete(id)
+	Ingenia::TagSet.delete(id)
 
 
 ## More Information

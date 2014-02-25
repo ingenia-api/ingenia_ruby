@@ -22,7 +22,7 @@ def stub_json_get(path, fixture, opts = {})
     } 
   end
 
-  opts[:endpoint] = Nowa::Api.endpoint unless opts.has_key? :endpoint
+  opts[:endpoint] = Ingenia::Api.endpoint unless opts.has_key? :endpoint
 
   url = URI.parse('http://' + opts[:endpoint] + path)
 
@@ -52,7 +52,7 @@ def stub_json_put(path, fixture, opts = {})
     }
   end
 
-  opts[:endpoint] = Nowa::Api.endpoint unless opts.has_key? :endpoint
+  opts[:endpoint] = Ingenia::Api.endpoint unless opts.has_key? :endpoint
 
   url = URI.parse('http://' + opts[:endpoint] + path)
 

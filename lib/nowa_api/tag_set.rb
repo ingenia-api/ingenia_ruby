@@ -1,13 +1,13 @@
-class Nowa::TagSet
-  include Nowa::Api
+class Ingenia::TagSet
+  include Ingenia::Api
 
   PATH = '/tag_sets'
   TAG_SET_KNOWN_PARAMS = %i{ offset limit } 
 
   # Get a single tag_set by id
   def self.get id
-    Nowa::Api.verify_response do
-      Remote.get "#{PATH}/#{id}", :api_key => Nowa::Api.api_key
+    Ingenia::Api.verify_response do
+      Remote.get "#{PATH}/#{id}", :api_key => Ingenia::Api.api_key
     end
   end
 
@@ -15,7 +15,7 @@ class Nowa::TagSet
   def self.create params = {}
     initialize_params params
 
-    Nowa::Api.verify_response do
+    Ingenia::Api.verify_response do
       Remote.post(PATH, @params )
     end
   end
@@ -24,7 +24,7 @@ class Nowa::TagSet
   def self.update id, params = {}
     initialize_params params
 
-    Nowa::Api.verify_response do
+    Ingenia::Api.verify_response do
       Remote.put("#{PATH}/#{id}", @params )
     end
   end
@@ -33,14 +33,14 @@ class Nowa::TagSet
   def self.all params = {}
     initialize_params params
 
-    Nowa::Api.verify_response do
+    Ingenia::Api.verify_response do
       Remote.get(PATH, @params )
     end
   end
 
   def self.destroy id
-    Nowa::Api.verify_response do
-      Remote.delete("#{PATH}/#{id}", :params => { :api_key => Nowa::Api.api_key} )
+    Ingenia::Api.verify_response do
+      Remote.delete("#{PATH}/#{id}", :params => { :api_key => Ingenia::Api.api_key} )
     end
   end
 
@@ -52,7 +52,7 @@ class Nowa::TagSet
       json_params = params.select{ |k,v| not TAG_SET_KNOWN_PARAMS.include?(k) }
 
 
-      @params = { :api_key => Nowa::Api.api_key }
+      @params = { :api_key => Ingenia::Api.api_key }
       @params.merge!( { :json => json_params.to_json } ) unless json_params.empty? 
       @params.merge! request_params
     end

@@ -10,15 +10,15 @@ require './helper'
 #
 # Set API key to the test user for this gem
 require 'nowa_api'
-Nowa::Api.api_key = "API_KEY"
-Nowa::Api.version = 2.0
+Ingenia::Api.api_key = "API_KEY"
+Ingenia::Api.version = 2.0
 
 ##
 # Create
 #
 example "Create" do
   # Create a new tag_set
-  @new_test_tag_set = Nowa::TagSet.create(:name => "new tag set name")
+  @new_test_tag_set = Ingenia::TagSet.create(:name => "new tag set name")
   puts "\n created a new tag_set:"
   puts "#{@new_test_tag_set}".green
 end
@@ -29,7 +29,7 @@ end
 #
 example "Index" do
   # Get a list of all your tag_sets
-  tag_sets = Nowa::TagSet.all
+  tag_sets = Ingenia::TagSet.all
   puts "got #{tag_sets.length} tag_sets".green
 
   # Get the first tag_set
@@ -48,7 +48,7 @@ end
 #
 example "Show" do
   # Get the updated tag_set, including it's text
-  @test_tag_set = Nowa::TagSet.get(@test_tag_set_id)
+  @test_tag_set = Ingenia::TagSet.get(@test_tag_set_id)
   puts "\n updated tag_set:"
   puts "#{@test_tag_set}".green
 end
@@ -59,7 +59,7 @@ end
 # 
 example "Update" do
   # Update its text
-  response = Nowa::TagSet.update(@test_tag_set_id, :name => "updated tag_set name new")
+  response = Ingenia::TagSet.update(@test_tag_set_id, :name => "updated tag_set name new")
   puts "#{response}".green
 end
 
@@ -69,7 +69,7 @@ end
 #
 example "Destroy" do
   # Remove this new tag_set
-  response =  Nowa::TagSet.destroy(@new_test_tag_set['id'])
+  response =  Ingenia::TagSet.destroy(@new_test_tag_set['id'])
   puts "#{response}".green
 end
 

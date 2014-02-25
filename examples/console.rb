@@ -6,7 +6,7 @@ require 'nowa_api'
 # Setup
 #
 # Set API key to the test user for this gem
-Nowa::Api.api_key = "API_KEY"
+Ingenia::Api.api_key = "API_KEY"
 
 require 'irb'
 ARGV.clear

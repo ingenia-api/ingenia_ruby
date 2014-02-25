@@ -1,5 +1,5 @@
 
-module Nowa
+module Ingenia
 module Api
 
   module Remote

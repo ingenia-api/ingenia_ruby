@@ -11,8 +11,8 @@ require './helper'
 # Set API key to the test user for this gem
 require 'nowa_api'
 #local
-Nowa::Api.api_key = "API_KEY"
-Nowa::Api.version = 2.0
+Ingenia::Api.api_key = "API_KEY"
+Ingenia::Api.version = 2.0
 
 
 ##
@@ -20,10 +20,10 @@ Nowa::Api.version = 2.0
 #
 example "Create" do
   # Get your tag_set
-  @tag_set = Nowa::TagSet.all.first
+  @tag_set = Ingenia::TagSet.all.first
 
   # Create a new tag
-  @new_test_tag = Nowa::Tag.create(:name => "new tag", :tag_set_id => @tag_set['id'])
+  @new_test_tag = Ingenia::Tag.create(:name => "new tag", :tag_set_id => @tag_set['id'])
   puts "\n created a new tag:"
   puts "#{@new_test_tag}".green
 end
@@ -34,7 +34,7 @@ end
 #
 example "Index" do
   # Get a list of all your tags
-  tags = Nowa::Tag.all
+  tags = Ingenia::Tag.all
   puts "got #{tags.length} tags".green
 
   # Get the first tag
@@ -53,7 +53,7 @@ end
 #
 example "Show" do
   # Get the updated tag, including it's text
-  @test_tag = Nowa::Tag.get(@test_tag_id)
+  @test_tag = Ingenia::Tag.get(@test_tag_id)
   puts "\n updated tag:"
   puts "#{@test_tag}".green
 end
@@ -64,7 +64,7 @@ end
 # 
 example "Update" do
   # Update its text
-  response = Nowa::Tag.update(@test_tag_id, :name => "updated tag name new", :description => "this is a testing tag", :tag_set_id => @tag_set['id'])
+  response = Ingenia::Tag.update(@test_tag_id, :name => "updated tag name new", :description => "this is a testing tag", :tag_set_id => @tag_set['id'])
   puts "#{response}".green
 end
 
@@ -74,7 +74,7 @@ end
 #
 example "Destroy" do
   # Remove this new tag
-  response =  Nowa::Tag.destroy(@new_test_tag['id'])
+  response =  Ingenia::Tag.destroy(@new_test_tag['id'])
   puts "#{response}".green
 end
 

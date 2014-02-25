@@ -1,5 +1,5 @@
-class Nowa::Item
-  include Nowa::Api
+class Ingenia::Item
+  include Ingenia::Api
 
   PATH = '/items'
 
@@ -10,7 +10,7 @@ class Nowa::Item
   def self.get( id, params = {} )
     initialize_params params
 
-    Nowa::Api.verify_response do
+    Ingenia::Api.verify_response do
       Remote.get( "#{PATH}/#{id}", @params )
     end
   end
@@ -22,7 +22,7 @@ class Nowa::Item
   def self.create( params = {} )
     initialize_params params    
 
-    Nowa::Api.verify_response do
+    Ingenia::Api.verify_response do
       Remote.post( PATH, @params )
     end
   end
@@ -34,7 +34,7 @@ class Nowa::Item
   def self.find_or_create_by_text( params = {} )
     initialize_params params    
 
-    Nowa::Api.verify_response do
+    Ingenia::Api.verify_response do
       Remote.post( PATH, @params )
     end
   end
@@ -45,7 +45,7 @@ class Nowa::Item
   def self.update( id, params = {} )
     initialize_params params
 
-    Nowa::Api.verify_response do
+    Ingenia::Api.verify_response do
       Remote.put("#{PATH}/#{id}", @params )
     end
   end
@@ -56,7 +56,7 @@ class Nowa::Item
   def self.all params = {}
     initialize_params params
     
-    Nowa::Api.verify_response do
+    Ingenia::Api.verify_response do
       Remote.get( PATH, @params )
     end
   end
@@ -65,8 +65,8 @@ class Nowa::Item
   # Destroy an item
   #
   def self.destroy id
-    Nowa::Api.verify_response do
-      Remote.delete("#{PATH}/#{id}", :params => { :api_key => Nowa::Api.api_key} )
+    Ingenia::Api.verify_response do
+      Remote.delete("#{PATH}/#{id}", :params => { :api_key => Ingenia::Api.api_key} )
     end
   end
 
@@ -78,7 +78,7 @@ class Nowa::Item
 
       json_params = params.select{ |k,v| not ITEM_KNOWN_PARAMS.include?(k) }
 
-      @params = { :api_key => Nowa::Api.api_key }
+      @params = { :api_key => Ingenia::Api.api_key }
       @params.merge!( { :json => json_params.to_json } ) unless json_params.empty? 
       @params.merge! request_params
     end

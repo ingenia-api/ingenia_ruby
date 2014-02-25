@@ -10,7 +10,7 @@ require 'nowa_api/tag'
 require 'nowa_api/tag_set'
 require 'nowa_api/bundle'
 
-module Nowa
+module Ingenia
   module Api
 
     extend self
@@ -47,7 +47,7 @@ module Nowa
         Item.create(:text => text, :tag_sets => tags)
 
       else
-        raise "Nowa::Api.train(text, tags) must be called with tags argument as either an Array or a Hash"
+        raise "Ingenia::Api.train(text, tags) must be called with tags argument as either an Array or a Hash"
       end
     end
 
@@ -95,7 +95,7 @@ module Nowa
     end
 
     def api_key
-      raise 'Nowa::Api.api_key not set' if @api_key.nil?
+      raise 'Ingenia::Api.api_key not set' if @api_key.nil?
       @api_key
     end
 
@@ -116,11 +116,11 @@ module Nowa
 
 
       def self.initialize_params( params = {} )
-        @params = { :api_key => Nowa::Api.api_key }.merge!(params)
+        @params = { :api_key => Ingenia::Api.api_key }.merge!(params)
       end
 
       def debug
-        puts "Nowa::Api.debug: #{yield}" if @debug
+        puts "Ingenia::Api.debug: #{yield}" if @debug
       end
 
   end
