@@ -2,7 +2,7 @@ require './helper'
 
 
 # RestClient.log = STDOUT
-require 'nowa_api'
+require 'ingenia_api'
 Ingenia::Api.api_key = "API_KEY"
 
 

@@ -6,7 +6,7 @@ require './helper'
 
 
 # Set API key to the test user for this gem
-require 'nowa_api'
+require 'ingenia_api'
 
 Ingenia::Api.api_key = "API_KEY"
 Ingenia::Api.version = 2.0

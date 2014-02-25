@@ -4,11 +4,11 @@ require 'json'
 
 require 'ostruct'
 
-require 'nowa_api/remote'
-require 'nowa_api/item'
-require 'nowa_api/tag'
-require 'nowa_api/tag_set'
-require 'nowa_api/bundle'
+require 'ingenia_api/remote'
+require 'ingenia_api/item'
+require 'ingenia_api/tag'
+require 'ingenia_api/tag_set'
+require 'ingenia_api/bundle'
 
 module Ingenia
   module Api

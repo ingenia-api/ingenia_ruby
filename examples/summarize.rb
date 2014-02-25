@@ -1,6 +1,6 @@
 require './helper'
 
-require 'nowa_api'
+require 'ingenia_api'
 Ingenia::Api.api_key = "API_KEY"
 
 # summarise some text

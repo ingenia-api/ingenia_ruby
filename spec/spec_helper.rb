@@ -1,5 +1,5 @@
 
-require 'nowa_api'
+require 'ingenia_api'
 require 'webmock/rspec'
 
 RSpec.configure do |conf|

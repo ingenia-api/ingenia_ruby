@@ -1,5 +1,5 @@
 
-nowa api spec
+ingenia api spec
 
 KnowledgeItem
   ( rw:title, r:created, r:url )

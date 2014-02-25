@@ -2,7 +2,7 @@
 $: << File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'yaml'
-require 'nowa_api'
+require 'ingenia_api'
 
 Ingenia::Api.api_key = "API_KEY"
 

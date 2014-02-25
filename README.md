@@ -4,7 +4,7 @@ A Gem to wrap the Ingenia API
 
 ### Installation
 ```sh
-gem install nowa_api
+gem install ingenia_api
 ```
 
 
@@ -247,4 +247,4 @@ See http://ingeniapi.com/reference for more details of the API.
 
 ## License
 
-&#169; 2013 Retechnica
+&#169; 2014 Retechnica
