@@ -3,7 +3,7 @@
 Gem::Specification.new do |gem|
   gem.authors       = ["Ivan Kocienski", "Joran Kikke"]
   gem.email         = ["ivan.kocienski@gmail.com", "joran.k@gmail.com"]
-  gem.description   = 
+  gem.description   =
   gem.summary       = "A Ruby API client for Ingenia"
   gem.homepage      = "http://www.ingeniapi.com"
 
@@ -12,8 +12,8 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = "ingenia_api"
   gem.require_paths = ["lib"]
-  
-  gem.version       = "0.0.6"
+
+  gem.version       = "1.0.0"
 
   gem.add_dependency('rest-client', '~> 0')
   gem.add_dependency('json', '~> 0')
