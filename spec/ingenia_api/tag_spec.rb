@@ -1,4 +1,4 @@
-require 'spec_helper' 
+require 'spec_helper'
 
 describe Ingenia::Tag do
   let( :empty_api_response ) { { 'status' => 'okay', 'data' => {} } }
@@ -11,7 +11,7 @@ describe Ingenia::Tag do
       expected_path = '/tags'
       expected_request = {:json=>"{\"name\":\"#{name}\",\"tag_set_id\":1}", :api_key=>"1234"}
 
-      Ingenia::Api::Remote.should_receive( :post ).
+      expect(Ingenia::Api::Remote).to receive( :post ).
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
@@ -27,7 +27,7 @@ describe Ingenia::Tag do
       expected_path = '/tags/1'
       expected_request = {:json=>"{\"name\":\"#{name}\",\"tag_set_id\":1}", :api_key=>"1234"}
 
-      Ingenia::Api::Remote.should_receive( :put ).
+      expect(Ingenia::Api::Remote).to receive( :put ).
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
@@ -40,7 +40,7 @@ describe Ingenia::Tag do
       expected_path = '/tags/1'
       expected_request = { :api_key=>"1234" }
 
-      Ingenia::Api::Remote.should_receive( :get ).
+      expect(Ingenia::Api::Remote).to receive( :get ).
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
@@ -53,7 +53,7 @@ describe Ingenia::Tag do
       expected_path = '/tags'
       expected_request = { :offset => 0, :limit => 50, :api_key=>"1234" }
 
-      Ingenia::Api::Remote.should_receive( :get ).
+      expect(Ingenia::Api::Remote).to receive( :get ).
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
@@ -64,9 +64,9 @@ describe Ingenia::Tag do
   describe '#delete' do
     it 'calls delete' do
       expected_path = '/tags/1'
-      expected_request = {:params=>{:api_key=>"1234"}} 
+      expected_request = {:params=>{:api_key=>"1234"}}
 
-      Ingenia::Api::Remote.should_receive( :delete ).
+      expect(Ingenia::Api::Remote).to receive( :delete ).
         with( expected_path, expected_request).
         and_return( empty_api_response )
 

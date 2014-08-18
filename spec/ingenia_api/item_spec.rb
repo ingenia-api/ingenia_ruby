@@ -1,4 +1,4 @@
-require 'spec_helper' 
+require 'spec_helper'
 
 describe Ingenia::Item do
   let( :empty_api_response ) { { 'status' => 'okay', 'data' => {} } }
@@ -11,7 +11,7 @@ describe Ingenia::Item do
       expected_path = '/items'
       expected_request = {:json=>"{\"text\":\"this is a test\"}", :api_key=>"1234"}
 
-      Ingenia::Api::Remote.should_receive( :post ).
+      expect(Ingenia::Api::Remote).to receive( :post ).
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
@@ -27,7 +27,7 @@ describe Ingenia::Item do
       expected_path = '/items/1'
       expected_request = {:json=>"{\"text\":\"this is some updated text\"}", :api_key=>"1234"}
 
-      Ingenia::Api::Remote.should_receive( :put ).
+      expect(Ingenia::Api::Remote).to receive( :put ).
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
@@ -40,7 +40,7 @@ describe Ingenia::Item do
       expected_path = '/items/1'
       expected_request = { :api_key=>"1234" }
 
-      Ingenia::Api::Remote.should_receive( :get ).
+      expect(Ingenia::Api::Remote).to receive( :get ).
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
@@ -53,7 +53,7 @@ describe Ingenia::Item do
       expected_path = '/items'
       expected_request = { :offset => 0, :limit => 10, :api_key=>"1234" }
 
-      Ingenia::Api::Remote.should_receive( :get ).
+      expect(Ingenia::Api::Remote).to receive( :get ).
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
@@ -64,7 +64,7 @@ describe Ingenia::Item do
       expected_path = '/items'
       expected_request = { :offset => 0, :limit => 10, :api_key=>"1234", :full_text=>true }
 
-      Ingenia::Api::Remote.should_receive( :get ).
+      expect(Ingenia::Api::Remote).to receive( :get ).
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
@@ -75,9 +75,9 @@ describe Ingenia::Item do
   describe '#destroy' do
     it 'calls delete' do
       expected_path = '/items/1'
-      expected_request = {:params=>{:api_key=>"1234"}} 
+      expected_request = {:params=>{:api_key=>"1234"}}
 
-      Ingenia::Api::Remote.should_receive( :delete ).
+      expect(Ingenia::Api::Remote).to receive( :delete ).
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
