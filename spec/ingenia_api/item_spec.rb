@@ -46,6 +46,17 @@ describe Ingenia::Item do
 
       Ingenia::Item.get(1)
     end
+
+    it 'calls get for a specific bundle' do
+      expected_path = '/items/1'
+      expected_request = { :api_key=>"1234", :bundle_id=>257 }
+
+      expect(Ingenia::Api::Remote).to receive( :get ).
+        with( expected_path, expected_request).
+        and_return( empty_api_response )
+
+      Ingenia::Item.get(1, :bundle_id => 257)
+    end
   end
 
   describe '#all' do

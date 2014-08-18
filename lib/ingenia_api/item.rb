@@ -3,9 +3,6 @@ class Ingenia::Item
 
   PATH = '/items'
 
-  # These are known request params, all other params will go inside the json object
-  ITEM_KNOWN_PARAMS = %i{ classify full_text file json update_existing offset limit }
-
   # Get a single item by id
   def self.get( id, params = {} )
     initialize_params params
@@ -73,7 +70,7 @@ class Ingenia::Item
 
   private
     def self.initialize_params( params = {} )
-      @params = params.select{ |k,v| ITEM_KNOWN_PARAMS.include?(k) }
+      @params = params.clone
 
       @params[:json] = @params[:json].to_json if @params[:json]
       @params.merge!( { :api_key => Ingenia::Api.api_key } )
