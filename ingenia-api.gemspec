@@ -15,6 +15,10 @@ Gem::Specification.new do |gem|
 
   gem.version       = "1.0.0"
 
-  gem.add_dependency('rest-client', '~> 0')
-  gem.add_dependency('json', '~> 0')
+  gem.add_dependency('rest-client')
+  gem.add_dependency('json')
+  gem.add_dependency('colorize')
+
+  gem.add_development_dependency('rspec')
+  gem.add_development_dependency('webmock')
 end
