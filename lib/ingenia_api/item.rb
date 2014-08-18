@@ -3,9 +3,6 @@ class Ingenia::Item
 
   PATH = '/items'
 
-  # These are known request params, all other params will go inside the json object
-  ITEM_KNOWN_PARAMS = %i{ classify full_text file update_existing offset limit }
-
   # Get a single item by id
   def self.get( id, params = {} )
     initialize_params params
@@ -17,10 +14,10 @@ class Ingenia::Item
 
   ##
   # Create a new item
-  # 
+  #
   #
   def self.create( params = {} )
-    initialize_params params    
+    initialize_params params
 
     Ingenia::Api.verify_response do
       Remote.post( PATH, @params )
@@ -29,10 +26,10 @@ class Ingenia::Item
 
   ##
   # Find or create a new item by text
-  # 
+  #
   #
   def self.find_or_create_by_text( params = {} )
-    initialize_params params    
+    initialize_params params
 
     Ingenia::Api.verify_response do
       Remote.post( PATH, @params )
@@ -55,7 +52,7 @@ class Ingenia::Item
   #
   def self.all params = {}
     initialize_params params
-    
+
     Ingenia::Api.verify_response do
       Remote.get( PATH, @params )
     end
@@ -73,13 +70,9 @@ class Ingenia::Item
 
   private
     def self.initialize_params( params = {} )
-      # break params down into for json object and for request
-      request_params = params.select{ |k,v| ITEM_KNOWN_PARAMS.include?(k) }
+      @params = params.clone
 
-      json_params = params.select{ |k,v| not ITEM_KNOWN_PARAMS.include?(k) }
-
-      @params = { :api_key => Ingenia::Api.api_key }
-      @params.merge!( { :json => json_params.to_json } ) unless json_params.empty? 
-      @params.merge! request_params
+      @params[:json] = @params[:json].to_json if @params[:json]
+      @params.merge!( { :api_key => Ingenia::Api.api_key } )
     end
 end
