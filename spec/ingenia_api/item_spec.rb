@@ -15,7 +15,7 @@ describe Ingenia::Item do
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
-      Ingenia::Item.create(:text => text)
+      Ingenia::Item.create(:json => { :text => text })
     end
   end
 
@@ -31,7 +31,7 @@ describe Ingenia::Item do
         with( expected_path, expected_request).
         and_return( empty_api_response )
 
-      Ingenia::Item.update(1, :text => text)
+      Ingenia::Item.update(1, :json => { :text => text })
     end
   end
 

@@ -14,7 +14,7 @@ module Ingenia
   module Api
 
     extend self
-    
+
     API_KNOWN_PARAMS = %w( limit text )
 
     class CallFailed < StandardError
@@ -41,10 +41,10 @@ module Ingenia
     def train(text, tags = {})
       debug { "train" }
       if tags.is_a? Array
-        Item.create(:text => text, :tags => tags)
+        Item.create(:json => { :text => text, :tags => tags })
 
       elsif tags.is_a? Hash
-        Item.create(:text => text, :tag_sets => tags)
+        Item.create(:json => { :text => text, :tag_sets => tags })
 
       else
         raise "Ingenia::Api.train(text, tags) must be called with tags argument as either an Array or a Hash"
@@ -58,18 +58,18 @@ module Ingenia
       initialize_params params
 
       if params.has_key? :item_id
-        verify_response { Remote.get("/similar_to/#{ @params[:item_id] }", @params ) }        
+        verify_response { Remote.get("/similar_to/#{ @params[:item_id] }", @params ) }
       elsif params.has_key? :text
-        verify_response { Remote.post("/similar_to_text", @params ) }        
+        verify_response { Remote.post("/similar_to_text", @params ) }
       elsif params.has_key? :tag_ids
-        verify_response { Remote.get("/similar_to_tags", @params ) }        
+        verify_response { Remote.get("/similar_to_tags", @params ) }
       end
     end
 
     # Summarize some text
     def summarize(params = {})
       debug { "summarize" }
-      initialize_params params    
+      initialize_params params
 
       verify_response { Remote.post("/summarise", @params ) }
     end
@@ -78,7 +78,7 @@ module Ingenia
       debug { "trained_tags" }
       verify_response { Remote.get('/learnt_tags', :api_key => api_key) }
     end
-    
+
     def endpoint=(ep)
       debug { "endpoint=#{Remote.endpoint}" }
       Remote.endpoint = ep

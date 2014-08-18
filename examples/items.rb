@@ -19,7 +19,7 @@ Ingenia::Api.version = 2.0
 #
 example "Create/train" do
   big_text = "I like cake " * 1000
-  new_item = Ingenia::Item.create :text => big_text, :tags => [ 'food', 'cake', 'obsession']
+  new_item = Ingenia::Item.create :json => { :text => big_text, :tags => [ 'food', 'cake', 'obsession'] }
   @new_item_id = new_item['id']
 
   puts "new item: "
@@ -30,7 +30,7 @@ example "Create/train" do
 
   # request full text response
   big_text = "I like cake " * 1001
-  new_item = Ingenia::Item.create :text => big_text, :tags => [ 'food', 'cake', 'obsession'], :full_text => true
+  new_item = Ingenia::Item.create :json => { :text => big_text, :tags => [ 'food', 'cake', 'obsession'] }, :full_text => true
   @new_item_id = new_item['id']
 
   puts "new item with full text: "
@@ -38,7 +38,7 @@ example "Create/train" do
 
 
   # create without updating existing
-  response = Ingenia::Item.create :text => new_item['text'], :tags => [ 'not', 'changed' ], :update_existing => false
+  response = Ingenia::Item.create :json => { :text => new_item['text'], :tags => [ 'not', 'changed' ] }, :update_existing => false
   puts 'unchaged item'
   puts "#{response}".green
 end
@@ -87,15 +87,15 @@ end
 
 ##
 # Update
-# 
+#
 example "Update" do
-  response = Ingenia::Item.update(@test_item_id, :text => "this is some test update text for testing the API")
+  response = Ingenia::Item.update(@test_item_id, :json => { :text => "this is some test update text for testing the API" })
 
   puts "updated item:"
   puts "#{response}".green
 
   # Update its tags
-  response = Ingenia::Item.update(@test_item_id, :text => "this is some test update text for testing the API", :tags => ['api', 'testing'])
+  response = Ingenia::Item.update(@test_item_id, :json => { :text => "this is some test update text for testing the API", :tags => ['api', 'testing'] })
   puts "#{response}".green
 end
 
