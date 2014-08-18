@@ -1,4 +1,4 @@
-require 'spec_helper' 
+require 'spec_helper'
 
 describe Ingenia::Api do
 
@@ -13,12 +13,12 @@ describe Ingenia::Api do
     describe '::version' do
 
       it 'is default' do
-        Ingenia::Api::Remote.version.should == 2.0
+        expect(Ingenia::Api::Remote.version).to eq 2.0
       end
 
       it 'can be set' do
         Ingenia::Api::version = 1.0
-        Ingenia::Api::Remote.version.should == 1.0
+        expect(Ingenia::Api::Remote.version).to eq 1.0
       end
     end
 
@@ -52,7 +52,7 @@ describe Ingenia::Api do
   describe '::classify' do
     it 'calls remote url properly' do
 
-      Ingenia::Api::Remote.should_receive( :post ).
+      expect(Ingenia::Api::Remote).to receive( :post ).
         with( '/classify', :text => 'some text', :api_key => '1234' ).
         and_return( empty_api_response )
 
@@ -63,7 +63,7 @@ describe Ingenia::Api do
   describe '::train' do
     it 'calls remote url properly with array tags' do
 
-      Ingenia::Api::Remote.should_receive( :post ).
+      expect(Ingenia::Api::Remote).to receive( :post ).
         with( '/items', :json => { :text => 'some text', :tags => %w{ some tags } }.to_json, :api_key => '1234' ).
         and_return( empty_api_response )
 
@@ -82,7 +82,7 @@ describe Ingenia::Api do
         :api_key => '1234'
       }
 
-      Ingenia::Api::Remote.should_receive( :post ).
+      expect(Ingenia::Api::Remote).to receive( :post ).
         with( '/items', test_payload ).
         and_return( empty_api_response )
 
@@ -93,7 +93,7 @@ describe Ingenia::Api do
   describe '::similar_to' do
     it 'calls remote url properly' do
 
-      Ingenia::Api::Remote.should_receive( :get ).
+      expect(Ingenia::Api::Remote).to receive( :get ).
         with( "/similar_to/1", :api_key => '1234', :item_id => 1 ).
         and_return( empty_api_response )
 
@@ -104,7 +104,7 @@ describe Ingenia::Api do
   describe '::summarize' do
     it 'calls remote url properly' do
 
-      Ingenia::Api::Remote.should_receive( :post ).
+      expect(Ingenia::Api::Remote).to receive( :post ).
         with( "/summarise", :api_key => '1234', :text => "this is some long-winded text" ).
         and_return( empty_api_response )
 
@@ -116,22 +116,22 @@ describe Ingenia::Api do
   describe '::endpoint' do
 
     it 'is default' do
-      Ingenia::Api::Remote.endpoint.should == 'api.ingeniapi.com'
+      expect(Ingenia::Api::Remote.endpoint).to eq 'api.ingeniapi.com'
     end
 
     it 'can be set' do
       Ingenia::Api::endpoint = 'hoopla.com'
-      Ingenia::Api::Remote.endpoint.should == 'hoopla.com'
+      expect(Ingenia::Api::Remote.endpoint).to eq 'hoopla.com'
     end
 
     it 'can take port numbers' do
       Ingenia::Api::endpoint = 'hoopla.com:8080'
-      Ingenia::Api::Remote.endpoint.should == 'hoopla.com'
-      Ingenia::Api::Remote.port.should == 8080
+      expect(Ingenia::Api::Remote.endpoint).to eq 'hoopla.com'
+      expect(Ingenia::Api::Remote.port).to eq 8080
     end
   end
 
-  
+
 end
 
 
