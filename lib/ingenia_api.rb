@@ -6,6 +6,7 @@ require 'ostruct'
 
 require 'ingenia_api/remote'
 require 'ingenia_api/item'
+require 'ingenia_api/html_extractor'
 require 'ingenia_api/tag'
 require 'ingenia_api/tag_set'
 require 'ingenia_api/bundle'
