@@ -90,17 +90,6 @@ describe Ingenia::Api do
     end
   end
 
-  describe '::similar_to' do
-    it 'calls remote url properly' do
-
-      expect(Ingenia::Api::Remote).to receive( :get ).
-        with( "/similar_to/1", :api_key => '1234', :item_id => 1 ).
-        and_return( empty_api_response )
-
-      Ingenia::Api.similar_to :item_id => 1
-    end
-  end
-
   describe '::summarize' do
     it 'calls remote url properly' do
 

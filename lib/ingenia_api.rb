@@ -58,9 +58,7 @@ module Ingenia
 
       initialize_params params
 
-      if params.has_key? :item_id
-        verify_response { Remote.get("/similar_to/#{ @params[:item_id] }", @params ) }
-      elsif params.has_key? :text
+      if params.has_key? :text
         verify_response { Remote.post("/similar_to_text", @params ) }
       elsif params.has_key? :tag_ids
         verify_response { Remote.get("/similar_to_tags", @params ) }

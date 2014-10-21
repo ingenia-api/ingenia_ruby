@@ -95,6 +95,21 @@ describe Ingenia::Item do
       Ingenia::Item.destroy(1)
     end
   end
+
+  describe '#similar_to' do
+    it 'calls similar_to' do
+
+      expected_path = '/items/1/similar_to'
+      expected_request = { :api_key => "1234", mode: 'word' }
+
+      expect(Ingenia::Api::Remote).to receive( :get ).
+        with( expected_path, expected_request).
+        and_return( empty_api_response )
+
+      Ingenia::Item.similar_to(1, :word)
+    end
+  end
+
 end
 
 
