@@ -108,3 +108,17 @@ example "Destroy" do
   response = Ingenia::Item.destroy(@test_item_id)
   puts "#{response}".green
 end
+
+##
+# Similar to - using auto matching
+#
+example "similar to" do
+  response = Ingenia::Item.similar_to(@test_item_id)
+
+  puts "#{response}".green
+end
+example "similar to - matching on words" do
+  response = Ingenia::Item.similar_to(@test_item_id, :words)
+
+  puts "#{response}".green
+end
