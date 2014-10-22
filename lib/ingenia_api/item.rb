@@ -67,6 +67,16 @@ class Ingenia::Item
     end
   end
 
+  #
+  # Get similar items
+  #
+  def self.similar_to(id, mode='auto', params={})
+    initialize_params params.merge(mode: mode.to_s)
+
+    Ingenia::Api.verify_response do
+      Remote.get("#{PATH}/#{id}/similar_to", @params)
+    end
+  end
 
   private
     def self.initialize_params( params = {} )

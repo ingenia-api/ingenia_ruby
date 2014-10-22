@@ -5,14 +5,8 @@ require './helper'
 require 'ingenia_api'
 Ingenia::Api.api_key = "API_KEY"
 
-
-
 # similar to text
-example "similar to text" do
-  response = Ingenia::Api.similar_to(:text => "family meals at christmas.")
-
-  puts "#{response}".green
-end
+# Moved to Ingenia::Item.similar_to
 
 # similar to item
 example "similar to item" do
