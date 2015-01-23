@@ -2,8 +2,8 @@
 
 Gem::Specification.new do |gem|
   gem.name          = 'ingenia_api'
-  gem.authors       = ['Ivan Kocienski', 'Joran Kikke']
-  gem.email         = %w(ivan.kocienski@gmail.com joran.k@gmail.com)
+  gem.authors       = ['Retechnica Team']
+  gem.email         = %w(ingenia-devs@retechnica.com)
   gem.summary       = 'A Ruby API client for Ingenia'
   gem.description   = 'A Ruby API client for Ingenia'
   gem.homepage      = 'http://www.ingeniapi.com"'
