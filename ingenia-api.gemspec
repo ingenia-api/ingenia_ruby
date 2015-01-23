@@ -13,12 +13,12 @@ Gem::Specification.new do |gem|
   gem.name          = "ingenia_api"
   gem.require_paths = ["lib"]
 
-  gem.version       = "1.0.2"
+  gem.version       = "1.0.3"
 
-  gem.add_dependency('rest-client')
-  gem.add_dependency('json')
-  gem.add_dependency('colorize')
+  gem.add_dependency 'rest-client'
+  gem.add_dependency 'json'
+  gem.add_dependency 'colorize'
 
-  gem.add_development_dependency('rspec')
-  gem.add_development_dependency('webmock')
+  gem.add_development_dependency 'rspec'
+  gem.add_development_dependency 'webmock'
 end
