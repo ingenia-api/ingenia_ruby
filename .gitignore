@@ -1,1 +1,6 @@
+Gemfile.lock
 *.gem
+pkg/
+vendor/
+.idea/
+.bundle/

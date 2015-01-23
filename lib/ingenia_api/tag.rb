@@ -33,6 +33,14 @@ class Ingenia::Tag
     end
   end
 
+  # Update an existing tag
+  def self.merge id, params = {}
+    initialize_params params
+
+    Ingenia::Api.verify_response do
+      Remote.post("#{PATH}/#{id}/merge", @params )
+    end
+  end
 
   # Index your tags
   def self.all params = {}
