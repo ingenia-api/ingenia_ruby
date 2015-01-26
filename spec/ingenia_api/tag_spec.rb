@@ -30,7 +30,7 @@ describe Ingenia::Tag do
   describe '#merge' do
     let(:tag_ids) { [1, 2, 3] }
     let(:path) { '/tags/1/merge' }
-    let(:request) { { json: "{\"tag_ids\":[1,2,3]}", api_key: "1234" } }
+    let(:request) { { tag_ids: "[1,2,3]", api_key: "1234" } }
 
     specify do
       expect(Ingenia::Api::Remote).to receive(:post).with(path, request) { empty_api_response }
