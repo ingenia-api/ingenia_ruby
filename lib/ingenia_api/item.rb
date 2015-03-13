@@ -48,6 +48,17 @@ class Ingenia::Item
   end
 
   #
+  # Scan your items
+  #
+  def self.scan params = {}
+    initialize_params params
+
+    Ingenia::Api.verify_response do
+      Remote.get( "#{PATH}/scan", @params )
+    end
+  end
+
+  #
   # Index your items
   #
   def self.all params = {}

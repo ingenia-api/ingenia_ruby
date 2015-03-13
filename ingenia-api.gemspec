@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.files         = `git ls-files`.split($\)
   gem.test_files    = gem.files.grep(%r{^(spec)/})
   gem.require_paths = %w(lib)
-  gem.version       = '1.0.4'
+  gem.version       = '1.0.5'
 
   gem.add_dependency 'rest-client'
   gem.add_dependency 'json'
