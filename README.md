@@ -7,7 +7,7 @@ This readme covers the basics of the Ingenia API, but you can do so many more in
 
 ### Installation
 ```sh
-gem install ingenia_api https://www.ingeniapi.com/documentation
+gem install ingenia_api 
 ```
 
 
