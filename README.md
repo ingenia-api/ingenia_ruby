@@ -319,7 +319,7 @@ Tags, or categories, are meaningful words or expressions that you want to associ
 ### Create a tag
 ```ruby
   tag = Ingenia::Tag.create(name: "Science", tag_set_id: 1803)
-
+```
 ### Tag CRUD
   tag = Ingenia::Tag.create(name: "Science", tag_set_id: 1803)
 		
@@ -350,7 +350,7 @@ Ingenia::TagSet.create(name: "Topic")
 ```
 
 ### TagSet CRUD
-	tagset = Ingenia::TagSet.create(name: "Urgency")
+  tagset = Ingenia::TagSet.create(name: "Urgency")
 		
 	# Store the tagset id
 	id = tagset['id']
