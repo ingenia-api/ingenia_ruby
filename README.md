@@ -1,10 +1,13 @@
 # Ingenia Ruby gem
-A Gem to wrap the Ingenia API
+A gem to wrap the [Ingenia API](https://www.ingeniapi.com/documentation) 
+
+This readme covers the basics of the Ingenia API, but you can do so many more interesting things by using the examples of the API documentation as a guide.
+ 
 
 
 ### Installation
 ```sh
-gem install ingenia_api
+gem install ingenia_api https://www.ingeniapi.com/documentation
 ```
 
 
@@ -285,7 +288,7 @@ Ingenia::Item.create(json: { text: "Dolphins Have Longest Memories in Animal Kin
 This creates both the tag set and tags if they dont already exist.
 
 ```ruby
-Ingenia::Item.create(json: { text: "True or False? Sea Lions Never Forget", tag_sets: { post_type: ["question"], subject: ["animals", "memory"] } } )
+Ingenia::Item.create(json: { text: "True or False? Sea Lions Never Forget", tag_sets: { category: ["question"], subject: ["animals", "memory"] } } )
 ```
 
 
