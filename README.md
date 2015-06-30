@@ -304,7 +304,7 @@ Ingenia::Item.create(json: { text: "The Octopus Can Turbocharge Its Memory", tag
 	id = item['id']
 	
 	# update the item
-  item = Ingenia::Item.update(id, json: { text: "How do you eat cheese?"})
+	item = Ingenia::Item.update(id, json: { text: "How do you eat cheese?"})
 
 	# Get an item, together with it's most recent classifications
 	item = Ingenia::Item.get(id)
@@ -321,7 +321,7 @@ Tags, or categories, are meaningful words or expressions that you want to associ
   tag = Ingenia::Tag.create(name: "Science", tag_set_id: 1803)
 ```
 ### Tag CRUD
-  tag = Ingenia::Tag.create(name: "Science", tag_set_id: 1803)
+	tag = Ingenia::Tag.create(name: "Science", tag_set_id: 1803)
 		
 	# Store the tag id
 	id = tag['id']
@@ -350,7 +350,7 @@ Ingenia::TagSet.create(name: "Topic")
 ```
 
 ### TagSet CRUD
-  tagset = Ingenia::TagSet.create(name: "Urgency")
+	tagset = Ingenia::TagSet.create(name: "Urgency")
 		
 	# Store the tagset id
 	id = tagset['id']
