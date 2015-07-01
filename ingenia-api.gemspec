@@ -10,12 +10,12 @@ Gem::Specification.new do |gem|
   gem.files         = `git ls-files`.split($\)
   gem.test_files    = gem.files.grep(%r{^(spec)/})
   gem.require_paths = %w(lib)
-  gem.version       = '1.0.5'
+  gem.version       = '1.0.6'
 
-  gem.add_runtime_dependency 'rest-client', '~> 0'
-  gem.add_runtime_dependency 'json', '~> 0'
-  gem.add_runtime_dependency 'colorize', '~> 0'
+  gem.add_runtime_dependency 'rest-client', '>= 1.8.0'
+  gem.add_runtime_dependency 'json', '>= 1.8.3'
+  gem.add_runtime_dependency 'colorize',  '>= 0.7.7'
 
-  gem.add_development_dependency 'rspec', '~> 0'
-  gem.add_development_dependency 'webmock', '~> 0'
+  gem.add_development_dependency 'rspec', '>= 3.3.0'
+  gem.add_development_dependency 'webmock', '>= 1.21.0'
 end
