@@ -94,8 +94,12 @@ module Api
             return JSON.parse e.response
             
           rescue RestClient::RequestFailed => e
-            if e.response.nil? || e.response.code != 429 # throttling
+            if e.response.nil?
               return { 'status' => 'error', 'message' => e.to_s }
+            else
+              if e.response.code != 429 # throttling
+                return JSON.parse e.response
+              end
             end
 
           rescue RestClient::BadRequest => e
